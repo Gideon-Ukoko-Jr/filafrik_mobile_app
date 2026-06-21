@@ -1,0 +1,35 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "filafrik-e919a",
+          "appId": "1:23052146055:android:bdbd2aa498f72bf4d9ef22",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "filafrik-e919a",
+          "appId": "1:23052146055:ios:326ce31b656860f0d9ef22",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "filafrik-e919a",
+          "configurations": {
+            "android": "1:23052146055:android:bdbd2aa498f72bf4d9ef22",
+            "ios": "1:23052146055:ios:326ce31b656860f0d9ef22",
+            "web": "1:23052146055:web:ccbd44bf2702f6b3d9ef22"
+          }
+        }
+      }
+    }
+  }
+}

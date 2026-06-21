@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FilAfrik Founders Circle</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"DM Sans",sans-serif;background:#EDEAE5;min-height:100vh;padding:20px;}
+.wrap{display:flex;gap:20px;max-width:1060px;margin:0 auto;background:#E4E0DA;border-radius:20px;padding:20px;min-height:700px;}
+.nav{width:190px;flex-shrink:0;}
+.ns{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:#9A8A70;padding:10px 8px 4px;}
+.nb{width:100%;text-align:left;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:500;color:#5A4A30;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:7px;}
+.nb:hover{background:#F5F1EC;}
+.nb.act{background:#1D3A25;color:#E2B550;}
+.nb .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.right{flex:1;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.mrow{display:flex;gap:8px;align-items:center;font-size:12px;color:#9A8A70;}
+.mb{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid #C8B89A;cursor:pointer;background:#F5F1EC;color:#5A4A30;}
+.mb.on{background:#1D3A25;color:#E2B550;border-color:#1D3A25;}
+.phone{width:320px;height:640px;border-radius:44px;position:relative;overflow:hidden;flex-shrink:0;}
+.phone.dk{background:#060A07;border:2.5px solid #2B5438;}
+.phone.lt{background:#F8F4EE;border:2.5px solid #C8B89A;}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:96px;height:28px;border-radius:0 0 16px 16px;z-index:30;display:flex;align-items:center;justify-content:center;}
+.phone.dk .notch{background:#060A07;}
+.phone.lt .notch{background:#F8F4EE;}
+.cam{width:8px;height:8px;border-radius:50%;background:#1D3A25;}
+.sw{position:absolute;inset:0;border-radius:42px;overflow:hidden;}
+.screen{display:none;width:100%;height:100%;position:absolute;top:0;left:0;flex-direction:column;overflow:hidden;}
+.screen.show{display:flex;}
+.stripe{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#CC2200,#C8993A,#F5E0B0,#C8993A,#CC2200);z-index:10;}
+/* dark */
+.phone.dk .mbg{background:#060A07;}
+.phone.dk .sf{background:#0D150F;}
+.phone.dk .tb{background:#0D150F;border-bottom:1px solid rgba(200,153,58,.18);}
+.phone.dk .cd{background:#0D150F;border:1px solid rgba(200,153,58,.18);border-radius:14px;padding:12px;}
+.phone.dk .cda{background:#0D150F;border:1px solid rgba(200,153,58,.35);border-radius:14px;padding:12px;}
+.phone.dk .inp{background:#0D150F;border:1px solid rgba(200,153,58,.18);border-radius:12px;padding:12px 14px;font-size:13px;}
+.phone.dk .inp.foc{border-color:#C8993A;}
+.phone.dk .t1{color:#F2E8D0;}
+.phone.dk .t2{color:#8A7A62;}
+.phone.dk .t3{color:#4A3E2E;}
+.phone.dk .ac{color:#C8993A;}
+.phone.dk .nb2{background:#0A0805;border-top:1px solid rgba(200,153,58,.14);}
+/* light */
+.phone.lt .mbg{background:#FAF7F2;}
+.phone.lt .sf{background:#FFFFFF;}
+.phone.lt .tb{background:#FFFFFF;border-bottom:1px solid rgba(180,130,10,.20);}
+.phone.lt .cd{background:#FFFFFF;border:1px solid rgba(180,130,10,.20);border-radius:14px;padding:12px;}
+.phone.lt .cda{background:#FFFFFF;border:1px solid rgba(180,130,10,.38);border-radius:14px;padding:12px;}
+.phone.lt .inp{background:#FFFFFF;border:1px solid rgba(180,130,10,.20);border-radius:12px;padding:12px 14px;font-size:13px;}
+.phone.lt .inp.foc{border-color:#B8820A;}
+.phone.lt .t1{color:#1A1208;}
+.phone.lt .t2{color:#5A4A30;}
+.phone.lt .t3{color:#9A8A70;}
+.phone.lt .ac{color:#B8820A;}
+.phone.lt .nb2{background:#FFFFFF;border-top:1px solid rgba(180,130,10,.15);}
+.phone.lt .gbtn{background:#B8820A;}
+/* shared */
+.gbtn{background:#C8993A;padding:14px;border-radius:14px;font-size:14px;font-weight:600;color:#060A07;text-align:center;}
+.obtn{border:1.5px solid rgba(200,153,58,.35);padding:13px;border-radius:14px;font-size:13px;color:#8A7A62;text-align:center;}
+.prog{display:flex;gap:4px;margin-bottom:14px;}
+.prog span{display:block;height:3px;flex:1;border-radius:2px;background:rgba(200,153,58,.2);}
+.prog span.on{background:#C8993A;}
+.bacc{background:rgba(200,153,58,.15);border:1px solid rgba(200,153,58,.3);border-radius:20px;padding:2px 9px;font-size:9px;font-weight:700;color:#C8993A;}
+.blist{background:rgba(100,140,100,.1);border:1px solid rgba(100,140,100,.2);border-radius:20px;padding:2px 9px;font-size:9px;color:#3A7A4A;}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1D3A25,#3A7A4A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#F2E8D0;flex-shrink:0;border:1.5px solid rgba(200,153,58,.35);}
+.av.big{width:56px;height:56px;font-size:19px;}
+.pill{border:1px solid rgba(200,153,58,.35);border-radius:20px;padding:5px 13px;font-size:11px;color:#8A7A62;white-space:nowrap;}
+.pill.on{background:#C8993A;color:#060A07;border-color:#C8993A;}
+.nb2{display:flex;justify-content:space-around;padding:10px 10px 26px;position:absolute;bottom:0;left:0;right:0;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.nic{font-size:18px;}
+.nic.big{font-size:21px;}
+.nil{font-size:9px;color:#4A3E2E;}
+.nil.act{color:#C8993A;}
+.phone.lt .nil.act{color:#B8820A;}
+.nib{width:14px;height:2px;border-radius:1px;background:#C8993A;}
+.phone.lt .nib{background:#B8820A;}
+.atb{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#1D3A25,#C8993A,#1D3A25);}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:22px;height:22px;border:2.5px solid #C8993A;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;}
+.cir{position:absolute;border-radius:50%;pointer-events:none;}
+.ring1{position:absolute;width:272px;height:272px;border-radius:50%;border:1px solid rgba(200,153,58,.18);}
+.ring2{position:absolute;width:252px;height:252px;border-radius:50%;border:1.5px solid rgba(200,153,58,.45);}
+.ring3{position:absolute;width:230px;height:230px;border-radius:50%;background:rgba(200,153,58,.04);border:1px solid rgba(245,224,176,.10);}
+.medal{position:relative;display:flex;align-items:center;justify-content:center;z-index:1;}
+.mi{width:230px;height:230px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:0;}
+.br2{display:flex;gap:10px;}
+.bt{padding:8px 20px;border-radius:10px;font-size:13px;font-weight:600;border:none;cursor:pointer;}
+.bt-g{background:#C8993A;color:#060A07;}
+.bt-s{background:#F5F1EC;color:#5A4A30;border:1px solid #C8B89A;}
+.lb{font-size:11px;color:#9A8A70;}
+.bub-me{background:rgba(200,153,58,.15);border:1px solid rgba(200,153,58,.22);border-radius:13px 13px 3px 13px;padding:9px 11px;font-size:12px;line-height:1.5;}
+.phone.dk .bub-them{background:#0D150F;border:1px solid rgba(200,153,58,.18);color:#F2E8D0;border-radius:13px 13px 13px 3px;padding:9px 11px;font-size:12px;line-height:1.5;}
+.phone.lt .bub-them{background:#FFFFFF;border:1px solid rgba(180,130,10,.20);color:#1A1208;border-radius:13px 13px 13px 3px;padding:9px 11px;font-size:12px;line-height:1.5;}
+.phone.dk .bub-me{color:#F2E8D0;}
+.phone.lt .bub-me{color:#1A1208;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <div class="ns">Auth Flow</div>
+    <button class="nb act" onclick="go('splash')"><span class="dot"></span>Splash</button>
+    <button class="nb" onclick="go('onboard')"><span class="dot"></span>Onboarding</button>
+    <button class="nb" onclick="go('login')"><span class="dot"></span>Login</button>
+    <button class="nb" onclick="go('reg1')"><span class="dot"></span>Register &#8212; Account</button>
+    <button class="nb" onclick="go('reg2')"><span class="dot"></span>Register &#8212; Profile</button>
+    <button class="nb" onclick="go('reg3')"><span class="dot"></span>Register &#8212; Industry</button>
+    <button class="nb" onclick="go('reg4')"><span class="dot"></span>Register &#8212; Needs</button>
+    <div class="ns">Main App</div>
+    <button class="nb" onclick="go('dash')"><span class="dot"></span>Dashboard</button>
+    <button class="nb" onclick="go('dir')"><span class="dot"></span>Directory</button>
+    <button class="nb" onclick="go('biz')"><span class="dot"></span>Business Profile</button>
+    <button class="nb" onclick="go('ai')"><span class="dot"></span>AI Resources</button>
+    <button class="nb" onclick="go('rooms')"><span class="dot"></span>Community Rooms</button>
+    <button class="nb" onclick="go('room')"><span class="dot"></span>Discussion Room</button>
+    <button class="nb" onclick="go('profile')"><span class="dot"></span>My Profile</button>
+    <div class="ns">Admin</div>
+    <button class="nb" onclick="go('admin')"><span class="dot"></span>Admin Panel</button>
+    <button class="nb" onclick="go('submit')"><span class="dot"></span>Submit Business</button>
+  </div>
+  <div class="right">
+    <div class="mrow">Mode:
+      <button class="mb on" id="bd" onclick="setMode('dk')">Dark</button>
+      <button class="mb" id="bl" onclick="setMode('lt')">Light</button>
+    </div>
+    <div class="phone dk" id="phone">
+      <div class="notch"><div class="cam"></div></div>
+      <div class="sw" id="sw">
+
+        <div class="screen mbg" id="s-splash">
+          <div class="stripe"></div>
+          <div class="cir" style="top:-70px;right:-70px;width:240px;height:240px;background:#F5E0B0;opacity:.07;"></div>
+          <div class="cir" style="bottom:-60px;left:-60px;width:200px;height:200px;background:#CC2200;opacity:.10;"></div>
+          <div class="cir" style="top:42%;left:-24px;width:90px;height:90px;background:#C8993A;opacity:.14;"></div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+            <div class="medal">
+              <div class="ring1"></div><div class="ring2"></div><div class="ring3"></div>
+              <div class="mi">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin-bottom:10px;">
+                  <div class="ac" style="font-size:11px;letter-spacing:.20em;font-weight:800;text-transform:uppercase;">FILAFRIK</div>
+                  <div class="t2" style="font-size:8px;letter-spacing:.10em;text-transform:uppercase;">The African Experience</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                  <div style="width:44px;height:1px;background:rgba(200,153,58,.65);"></div>
+                  <div class="t2" style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;white-space:nowrap;">Founders Circle</div>
+                  <div style="width:44px;height:1px;background:rgba(200,153,58,.65);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding-bottom:52px;display:flex;justify-content:center;"><div class="spinner"></div></div>
+        </div>
+
+        <div class="screen mbg" id="s-onboard">
+          <div class="stripe"></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 22px 0;gap:20px;">
+            <div style="font-size:48px;">&#127758;</div>
+            <div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;text-align:center;line-height:1.3;">Where African Founders Grow Together</div>
+            <div class="t2" style="font-size:13px;text-align:center;line-height:1.65;padding:0 6px;">Connect, access AI-powered resources, and build your business in Canada's leading African founders community.</div>
+            <div style="display:flex;gap:20px;"><div class="ac" style="font-size:11px;font-weight:600;">Culture</div><div class="ac" style="font-size:11px;font-weight:600;">Community</div><div class="ac" style="font-size:11px;font-weight:600;">Commerce</div></div>
+          </div>
+          <div style="padding:18px 22px 36px;display:flex;flex-direction:column;gap:11px;">
+            <div style="display:flex;justify-content:center;gap:6px;margin-bottom:4px;"><div style="width:22px;height:4px;border-radius:2px;background:#C8993A;"></div><div style="width:8px;height:4px;border-radius:2px;background:rgba(200,153,58,.3);"></div><div style="width:8px;height:4px;border-radius:2px;background:rgba(200,153,58,.3);"></div></div>
+            <div class="gbtn">Get Started</div>
+            <div class="t2" style="font-size:12px;text-align:center;">Already a member? <span class="ac" style="font-weight:600;">Sign In</span></div>
+          </div>
+        </div>
+
+        <div class="screen mbg" id="s-login">
+          <div class="stripe"></div>
+          <div style="padding:54px 24px 20px;"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;margin-bottom:4px;">Welcome back</div><div class="t2" style="font-size:13px;">Sign in to the Founders Circle</div></div>
+          <div style="flex:1;padding:0 24px;display:flex;flex-direction:column;gap:14px;">
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Email Address</div><div class="inp t1">amara@kente.co</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Password</div><div class="inp foc t1">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</div></div>
+            <div style="text-align:right;"><span class="ac" style="font-size:12px;">Forgot password?</span></div>
+            <div class="gbtn">Sign In</div>
+            <div style="display:flex;align-items:center;gap:10px;"><div style="flex:1;height:1px;background:rgba(200,153,58,.25);"></div><span class="t3" style="font-size:11px;">or</span><div style="flex:1;height:1px;background:rgba(200,153,58,.25);"></div></div>
+            <div class="obtn" style="display:flex;align-items:center;justify-content:center;gap:8px;">&#128272; Sign in with Biometrics</div>
+            <div class="obtn">Continue with Google</div>
+          </div>
+          <div class="t2" style="padding:14px 24px 28px;text-align:center;font-size:12px;">No account? <span class="ac" style="font-weight:600;">Join the Circle</span></div>
+        </div>
+
+        <div class="screen mbg" id="s-reg1">
+          <div class="stripe"></div>
+          <div style="padding:44px 24px 14px;"><div class="prog"><span class="on"></span><span></span><span></span><span></span></div><div class="ac" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Step 1 of 4</div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;">Create your account</div></div>
+          <div style="flex:1;padding:0 24px;display:flex;flex-direction:column;gap:13px;">
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Email Address</div><div class="inp t3">Tap to enter...</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Password</div><div class="inp t3">Tap to enter...</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Confirm Password</div><div class="inp t3">Tap to enter...</div></div>
+            <div class="gbtn" style="margin-top:4px;">Continue &#8594;</div>
+          </div>
+          <div class="t3" style="padding:12px 24px 28px;text-align:center;font-size:11px;">By continuing you agree to FilAfrik's Terms of Service</div>
+        </div>
+
+        <div class="screen mbg" id="s-reg2">
+          <div class="stripe"></div>
+          <div style="padding:44px 24px 14px;"><div class="prog"><span class="on"></span><span class="on"></span><span></span><span></span></div><div class="ac" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Step 2 of 4</div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;">Tell us about you</div></div>
+          <div style="flex:1;padding:0 24px;display:flex;flex-direction:column;gap:12px;overflow:auto;">
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Full Name</div><div class="inp foc t1">Amara Osei</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Business Name</div><div class="inp t3">Tap to enter...</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Bio</div><div class="inp t3" style="height:68px;">What does your business do?</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">City</div><div class="inp t1">London, ON</div></div>
+          </div>
+          <div style="padding:12px 24px 28px;display:flex;gap:10px;"><div style="flex:1;" class="obtn">Back</div><div style="flex:2;" class="gbtn">Continue &#8594;</div></div>
+        </div>
+
+        <div class="screen mbg" id="s-reg3">
+          <div class="stripe"></div>
+          <div style="padding:44px 24px 12px;"><div class="prog"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div><div class="ac" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Step 3 of 4</div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;">Industry &amp; stage</div></div>
+          <div style="flex:1;padding:0 24px;display:flex;flex-direction:column;gap:12px;overflow:auto;">
+            <div><div class="t2" style="font-size:11px;margin-bottom:8px;font-weight:500;">Select your industry</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <div class="inp ac" style="background:rgba(200,153,58,.15);border-color:#C8993A;text-align:center;padding:9px;">Technology</div>
+                <div class="inp t2" style="text-align:center;padding:9px;">Food &amp; Hosp.</div>
+                <div class="inp t2" style="text-align:center;padding:9px;">Fashion</div>
+                <div class="inp t2" style="text-align:center;padding:9px;">Finance</div>
+                <div class="inp t2" style="text-align:center;padding:9px;">Media</div>
+                <div class="inp t2" style="text-align:center;padding:9px;">Healthcare</div>
+              </div>
+            </div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:7px;font-weight:500;">Business stage</div>
+              <div class="inp t2" style="margin-bottom:5px;">Idea Stage</div>
+              <div class="inp ac" style="background:rgba(200,153,58,.12);border-color:#C8993A;display:flex;justify-content:space-between;margin-bottom:5px;"><span>Early Stage (0-1 yrs)</span><span>&#10003;</span></div>
+              <div class="inp t2" style="margin-bottom:5px;">Growth Stage (1-3 yrs)</div>
+              <div class="inp t2">Established (3+ yrs)</div>
+            </div>
+          </div>
+          <div style="padding:10px 24px 26px;display:flex;gap:10px;"><div style="flex:1;" class="obtn">Back</div><div style="flex:2;" class="gbtn">Continue &#8594;</div></div>
+        </div>
+
+        <div class="screen mbg" id="s-reg4">
+          <div class="stripe"></div>
+          <div style="padding:44px 24px 12px;"><div class="prog"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div><div class="ac" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Step 4 of 4</div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;">What do you need most?</div></div>
+          <div class="t2" style="padding:0 24px 6px;font-size:12px;">Pick all that apply</div>
+          <div style="flex:1;padding:8px 24px 0;overflow:auto;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div class="inp ac" style="background:rgba(200,153,58,.12);border-color:#C8993A;display:flex;gap:5px;align-items:center;"><span>&#10003;</span>Funding &amp; Grants</div>
+            <div class="inp ac" style="background:rgba(200,153,58,.12);border-color:#C8993A;display:flex;gap:5px;align-items:center;"><span>&#10003;</span>Mentorship</div>
+            <div class="inp t2">Networking</div><div class="inp t2">Marketing</div>
+            <div class="inp t2">Legal Advice</div>
+            <div class="inp ac" style="background:rgba(200,153,58,.12);border-color:#C8993A;display:flex;gap:5px;align-items:center;"><span>&#10003;</span>Tech Solutions</div>
+            <div class="inp t2">Export Markets</div><div class="inp t2">Talent</div>
+          </div></div>
+          <div style="padding:14px 24px 28px;display:flex;gap:10px;"><div style="flex:1;" class="obtn">Back</div><div style="flex:2;" class="gbtn">Enter the Circle &#127758;</div></div>
+        </div>
+
+        <div class="screen mbg" id="s-dash">
+          <div class="stripe"></div>
+          <div class="tb sf" style="padding:40px 18px 13px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div><div class="t2" style="font-size:11px;">Good morning,</div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:700;">Amara Osei</div></div><div class="av">AO</div></div>
+            <div class="cd" style="position:relative;overflow:hidden;"><div class="atb"></div><div class="t2" style="font-size:11px;margin-bottom:2px;">Kente Digital &#183; Early Stage</div><div class="t1" style="font-size:12px;font-weight:500;margin-bottom:8px;">Technology &#183; Funding &amp; Grants</div><span style="background:rgba(200,153,58,.13);border:1px solid rgba(200,153,58,.3);border-radius:20px;padding:3px 10px;font-size:10px;" class="ac">Listed Member</span></div>
+          </div>
+          <div style="flex:1;overflow:auto;padding:13px 18px 80px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;">47</div><div class="t2" style="font-size:11px;">Members</div></div>
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;">12</div><div class="t2" style="font-size:11px;">Businesses</div></div>
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;">6</div><div class="t2" style="font-size:11px;">Rooms</div></div>
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;">2</div><div class="t2" style="font-size:11px;">Events</div></div>
+            </div>
+            <div class="t3" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Quick Access</div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;margin-bottom:7px;"><div style="font-size:20px;">&#127970;</div><div><div class="t1" style="font-size:13px;font-weight:600;">Directory</div><div class="t2" style="font-size:11px;">Find &amp; connect</div></div><div style="margin-left:auto;" class="ac">&#8250;</div></div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;margin-bottom:7px;"><div style="font-size:20px;">&#10024;</div><div><div class="t1" style="font-size:13px;font-weight:600;">AI Resources</div><div class="t2" style="font-size:11px;">Tailored grants &amp; tools</div></div><div style="margin-left:auto;" class="ac">&#8250;</div></div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;"><div style="font-size:20px;">&#128172;</div><div><div class="t1" style="font-size:13px;font-weight:600;">Community</div><div class="t2" style="font-size:11px;">Chat &amp; network</div></div><div style="margin-left:auto;" class="ac">&#8250;</div></div>
+          </div>
+          <div class="nb2"><div class="ni"><div class="nic big">&#127968;</div><div class="nil act">Home</div><div class="nib"></div></div><div class="ni"><div class="nic">&#127970;</div><div class="nil">Dir</div></div><div class="ni"><div class="nic">&#10024;</div><div class="nil">AI</div></div><div class="ni"><div class="nic">&#128172;</div><div class="nil">Chat</div></div><div class="ni"><div class="nic">&#128100;</div><div class="nil">Me</div></div></div>
+        </div>
+
+        <div class="screen mbg" id="s-dir">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 18px 12px;"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:700;">Directory</div><div class="t2" style="font-size:11px;margin-top:2px;">200+ founders &amp; businesses</div></div>
+          <div class="sf" style="padding:10px 18px 12px;border-bottom:1px solid rgba(200,153,58,.18);">
+            <div class="inp t3" style="display:flex;align-items:center;gap:7px;margin-bottom:9px;"><span>&#128269;</span><span>Search businesses...</span></div>
+            <div style="display:flex;gap:6px;overflow-x:auto;"><div class="pill on">All</div><div class="pill">Technology</div><div class="pill">Food</div><div class="pill">Fashion</div></div>
+          </div>
+          <div style="flex:1;overflow:auto;padding:12px 16px 80px;display:flex;flex-direction:column;gap:9px;">
+            <div class="cda" style="position:relative;overflow:hidden;"><div class="atb"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;"><div style="display:flex;align-items:center;gap:9px;"><div class="av">KD</div><div><div class="t1" style="font-size:13px;font-weight:600;">Kente Digital</div><div class="t2" style="font-size:10px;">by Amara Osei</div></div></div><span class="bacc">&#10022; Accredited</span></div><div class="t2" style="font-size:11px;">Fintech for the African diaspora.</div></div>
+            <div class="cda" style="position:relative;overflow:hidden;"><div class="atb"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;"><div style="display:flex;align-items:center;gap:9px;"><div class="av">SK</div><div><div class="t1" style="font-size:13px;font-weight:600;">Sahel Kitchen</div><div class="t2" style="font-size:10px;">by Fatima Diallo</div></div></div><span class="bacc">&#10022; Accredited</span></div><div class="t2" style="font-size:11px;">West African cuisine catering.</div></div>
+            <div class="cd"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;"><div style="display:flex;align-items:center;gap:9px;"><div class="av">AC</div><div><div class="t1" style="font-size:13px;font-weight:600;">Afrobold Creative</div><div class="t2" style="font-size:10px;">by Kwame Mensah</div></div></div><span class="blist">Listed</span></div><div class="t2" style="font-size:11px;">Brand storytelling for Africa.</div></div>
+            <div class="cda" style="position:relative;overflow:hidden;"><div class="atb"></div><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;"><div style="display:flex;align-items:center;gap:9px;"><div class="av">UW</div><div><div class="t1" style="font-size:13px;font-weight:600;">Ubuntu Wellness</div><div class="t2" style="font-size:10px;">by Naledi Dlamini</div></div></div><span class="bacc">&#10022; Accredited</span></div><div class="t2" style="font-size:11px;">Holistic African wellness.</div></div>
+            <div class="cd"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px;"><div style="display:flex;align-items:center;gap:9px;"><div class="av">GS</div><div><div class="t1" style="font-size:13px;font-weight:600;">Green Savanna</div><div class="t2" style="font-size:10px;">by Emeka Nwosu</div></div></div><span class="blist">Listed</span></div><div class="t2" style="font-size:11px;">Urban African farming.</div></div>
+          </div>
+          <div class="nb2"><div class="ni"><div class="nic">&#127968;</div><div class="nil">Home</div></div><div class="ni"><div class="nic big">&#127970;</div><div class="nil act">Dir</div><div class="nib"></div></div><div class="ni"><div class="nic">&#10024;</div><div class="nil">AI</div></div><div class="ni"><div class="nic">&#128172;</div><div class="nil">Chat</div></div><div class="ni"><div class="nic">&#128100;</div><div class="nil">Me</div></div></div>
+        </div>
+
+        <div class="screen mbg" id="s-biz">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 18px 14px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><span class="t2" style="font-size:18px;">&#8592;</span><span class="t2" style="font-size:13px;">Directory</span></div><div style="display:flex;align-items:center;gap:13px;"><div style="width:50px;height:50px;border-radius:14px;background:#1D3A25;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;" class="t1">KD</div><div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:700;">Kente Digital</div><div class="t2" style="font-size:11px;">by Amara Osei &#183; Est. 2021</div><div style="margin-top:5px;"><span class="bacc">&#10022; Accredited</span></div></div></div></div>
+          <div style="flex:1;overflow:auto;padding:14px 18px 80px;"><div class="t2" style="font-size:13px;line-height:1.7;margin-bottom:14px;">Fintech solutions for African diaspora remittances and cross-border payments &#8212; empowering community through accessible financial technology built for us.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:13px;">
+              <div class="cd"><div class="t3" style="font-size:10px;margin-bottom:2px;">Industry</div><div class="t1" style="font-size:12px;font-weight:500;">Technology</div></div>
+              <div class="cd"><div class="t3" style="font-size:10px;margin-bottom:2px;">Location</div><div class="t1" style="font-size:12px;font-weight:500;">London, ON</div></div>
+              <div class="cd"><div class="t3" style="font-size:10px;margin-bottom:2px;">Stage</div><div class="t1" style="font-size:12px;font-weight:500;">Growth Stage</div></div>
+              <div class="cd"><div class="t3" style="font-size:10px;margin-bottom:2px;">Founded</div><div class="t1" style="font-size:12px;font-weight:500;">2021</div></div>
+            </div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;"><div class="inp t2" style="padding:4px 9px;font-size:10px;">Fintech</div><div class="inp t2" style="padding:4px 9px;font-size:10px;">Diaspora</div><div class="inp t2" style="padding:4px 9px;font-size:10px;">Payments</div></div>
+            <div class="gbtn">Connect with Amara</div><div class="obtn" style="margin-top:8px;">Visit Website</div>
+          </div>
+          <div class="nb2"><div class="ni"><div class="nic">&#127968;</div><div class="nil">Home</div></div><div class="ni"><div class="nic big">&#127970;</div><div class="nil act">Dir</div><div class="nib"></div></div><div class="ni"><div class="nic">&#10024;</div><div class="nil">AI</div></div><div class="ni"><div class="nic">&#128172;</div><div class="nil">Chat</div></div><div class="ni"><div class="nic">&#128100;</div><div class="nil">Me</div></div></div>
+        </div>
+
+        <div class="screen mbg" id="s-ai">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 18px 12px;"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:700;">AI Resources</div><div class="t2" style="font-size:11px;margin-top:2px;">Personalised for Kente Digital</div></div>
+          <div class="sf" style="padding:8px 18px 12px;border-bottom:1px solid rgba(200,153,58,.18);"><div style="display:flex;gap:6px;align-items:center;"><div class="pill on">Grants</div><div class="pill">Tools</div><div class="pill">Tips</div><div class="inp t2" style="margin-left:auto;padding:5px 9px;font-size:11px;">&#8635; Refresh</div></div></div>
+          <div style="flex:1;overflow:auto;padding:12px 16px 80px;display:flex;flex-direction:column;gap:10px;">
+            <div class="cd"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;margin-bottom:7px;">CDAP Grant</div><div style="display:flex;gap:7px;align-items:center;margin-bottom:7px;"><div style="background:rgba(200,153,58,.14);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;" class="ac">Up to $15,000</div><div class="t3" style="font-size:10px;">Mar 2026</div></div><div class="t2" style="font-size:12px;line-height:1.5;margin-bottom:6px;">Digital adoption for Canadian SMEs. Strong fintech match.</div><div style="font-size:11px;color:#3A7A4A;">&#10003; Canadian SME &#183; &lt;499 employees</div></div>
+            <div class="cd"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;margin-bottom:7px;">Black Entrepreneur Program</div><div style="display:flex;gap:7px;align-items:center;margin-bottom:7px;"><div style="background:rgba(200,153,58,.14);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;" class="ac">Up to $250,000</div><div class="t3" style="font-size:10px;">Rolling</div></div><div class="t2" style="font-size:12px;line-height:1.5;">BDC dedicated program for Black entrepreneurs in Canada.</div></div>
+            <div class="cd"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;margin-bottom:7px;">Ontario Small Business</div><div style="display:flex;gap:7px;align-items:center;margin-bottom:7px;"><div style="background:rgba(200,153,58,.14);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;" class="ac">Up to $20,000</div><div class="t3" style="font-size:10px;">Apr 30</div></div><div class="t2" style="font-size:12px;line-height:1.5;">Ontario SME tech support. Strong eligibility match.</div></div>
+          </div>
+          <div class="nb2"><div class="ni"><div class="nic">&#127968;</div><div class="nil">Home</div></div><div class="ni"><div class="nic">&#127970;</div><div class="nil">Dir</div></div><div class="ni"><div class="nic big">&#10024;</div><div class="nil act">AI</div><div class="nib"></div></div><div class="ni"><div class="nic">&#128172;</div><div class="nil">Chat</div></div><div class="ni"><div class="nic">&#128100;</div><div class="nil">Me</div></div></div>
+        </div>
+
+        <div class="screen mbg" id="s-rooms">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 18px 12px;"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:700;">Community</div><div class="t2" style="font-size:11px;margin-top:2px;">47 founders connected</div></div>
+          <div style="flex:1;overflow:auto;padding:12px 16px 80px;display:flex;flex-direction:column;gap:7px;">
+            <div class="t3" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding-bottom:4px;">Open Rooms</div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;"><div class="inp" style="width:40px;height:40px;border-radius:11px;padding:0;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">&#128172;</div><div style="flex:1;min-width:0;"><div class="t1" style="font-size:13px;font-weight:600;margin-bottom:2px;">General</div><div class="t2" style="font-size:11px;">Open to all members</div></div><div class="t3" style="font-size:10px;flex-shrink:0;">2 min ago</div></div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;"><div class="inp" style="width:40px;height:40px;border-radius:11px;padding:0;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">&#128187;</div><div style="flex:1;min-width:0;"><div class="t1" style="font-size:13px;font-weight:600;margin-bottom:2px;">Tech &amp; Innovation</div><div class="t2" style="font-size:11px;">Founders in tech</div></div><div class="t3" style="font-size:10px;flex-shrink:0;">15 min ago</div></div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;"><div class="inp" style="width:40px;height:40px;border-radius:11px;padding:0;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">&#127869;</div><div style="flex:1;min-width:0;"><div class="t1" style="font-size:13px;font-weight:600;margin-bottom:2px;">Food &amp; Hospitality</div><div class="t2" style="font-size:11px;">Restaurant &amp; catering</div></div><div class="t3" style="font-size:10px;flex-shrink:0;">1 hr ago</div></div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;"><div class="inp" style="width:40px;height:40px;border-radius:11px;padding:0;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">&#128202;</div><div style="flex:1;min-width:0;"><div class="t1" style="font-size:13px;font-weight:600;margin-bottom:2px;">Finance &amp; Funding</div><div class="t2" style="font-size:11px;">Capital &amp; legal</div></div><div class="t3" style="font-size:10px;flex-shrink:0;">Yesterday</div></div>
+            <div class="t3" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:4px 0;">Exclusive</div>
+            <div class="cd" style="display:flex;align-items:center;gap:10px;opacity:.55;border-color:rgba(200,153,58,.2);"><div style="width:40px;height:40px;border-radius:11px;background:rgba(200,153,58,.08);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">&#128081;</div><div style="flex:1;"><div class="t1" style="font-size:13px;font-weight:600;">Accredited Lounge</div><div class="t2" style="font-size:11px;">FilAfrik Accredited only</div></div><div style="font-size:18px;">&#128274;</div></div>
+          </div>
+          <div class="nb2"><div class="ni"><div class="nic">&#127968;</div><div class="nil">Home</div></div><div class="ni"><div class="nic">&#127970;</div><div class="nil">Dir</div></div><div class="ni"><div class="nic">&#10024;</div><div class="nil">AI</div></div><div class="ni"><div class="nic big">&#128172;</div><div class="nil act">Chat</div><div class="nib"></div></div><div class="ni"><div class="nic">&#128100;</div><div class="nil">Me</div></div></div>
+        </div>
+
+        <div class="screen mbg" id="s-room">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 16px 10px;display:flex;align-items:center;gap:10px;"><span class="t2" style="font-size:18px;">&#8592;</span><div class="inp" style="width:34px;height:34px;border-radius:9px;padding:0;display:flex;align-items:center;justify-content:center;font-size:17px;">&#128172;</div><div style="flex:1;"><div class="t1" style="font-size:14px;font-weight:600;">General</div><div class="t2" style="font-size:10px;">47 members &#183; active now</div></div></div>
+          <div style="flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:12px;">
+            <div style="text-align:center;"><span class="t3 inp" style="font-size:10px;padding:3px 12px;border-radius:20px;">Today</span></div>
+            <div style="display:flex;align-items:flex-end;gap:8px;"><div class="av">FF</div><div style="max-width:72%;"><div class="t2" style="font-size:10px;margin-bottom:2px;padding:0 4px;">FilAfrik Team</div><div class="bub-them">Welcome to the Founders Circle &#8212; your community hub. &#127758;</div><div class="t3" style="font-size:10px;margin-top:2px;padding:0 4px;">9:00</div></div></div>
+            <div style="display:flex;align-items:flex-end;gap:8px;"><div class="av">AO</div><div style="max-width:72%;"><div class="t2" style="font-size:10px;margin-bottom:2px;padding:0 4px;">Amara Osei</div><div class="bub-them">Excited to be here &#8212; exactly what our community needed!</div><div class="t3" style="font-size:10px;margin-top:2px;padding:0 4px;">9:05</div></div></div>
+            <div style="display:flex;align-items:flex-end;gap:8px;flex-direction:row-reverse;"><div style="max-width:72%;display:flex;flex-direction:column;align-items:flex-end;"><div class="bub-me t1">Thank you &#8212; so glad to be part of this community.</div><div class="t3" style="font-size:10px;margin-top:2px;padding:0 4px;">9:22</div></div></div>
+          </div>
+          <div class="sf" style="border-top:1px solid rgba(200,153,58,.14);padding:9px 13px;display:flex;align-items:center;gap:9px;"><div class="inp t3" style="flex:1;border-radius:20px;padding:9px 13px;font-size:12px;">Write a post or question...</div><div style="width:34px;height:34px;background:#C8993A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:#060A07;flex-shrink:0;">&#8679;</div></div>
+        </div>
+
+        <div class="screen mbg" id="s-profile">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 18px 14px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:700;">My Profile</div><div class="ac" style="border:1.5px solid;border-radius:8px;padding:5px 12px;font-size:12px;">Edit</div></div><div style="display:flex;align-items:center;gap:12px;"><div class="av big" style="border:2px solid #C8993A;">AO</div><div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;">Amara Osei</div><div class="ac" style="font-size:12px;margin-bottom:2px;">Kente Digital</div><div class="t2" style="font-size:11px;">Technology &#183; Early Stage &#183; London, ON</div></div></div></div>
+          <div style="flex:1;overflow:auto;padding:13px 18px 80px;display:flex;flex-direction:column;gap:10px;">
+            <div class="cd"><div class="t3" style="font-size:10px;margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em;">About</div><div class="t2" style="font-size:12px;line-height:1.6;">Fintech founder building cross-border payment solutions for the African diaspora in Canada.</div></div>
+            <div class="cd"><div class="t3" style="font-size:10px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;">Business Needs</div><div style="display:flex;flex-wrap:wrap;gap:5px;"><span style="background:rgba(200,153,58,.12);border:1px solid rgba(200,153,58,.25);border-radius:20px;padding:4px 10px;font-size:11px;" class="ac">Funding &amp; Grants</span><span style="background:rgba(200,153,58,.12);border:1px solid rgba(200,153,58,.25);border-radius:20px;padding:4px 10px;font-size:11px;" class="ac">Tech Solutions</span></div></div>
+            <div class="cd" style="display:flex;align-items:center;gap:11px;border-color:rgba(200,153,58,.2);"><div style="width:38px;height:38px;border-radius:10px;background:rgba(200,153,58,.1);display:flex;align-items:center;justify-content:center;font-size:18px;">&#127885;</div><div><div class="t1" style="font-size:13px;font-weight:600;">Listed Member</div><div class="t2" style="font-size:11px;">Contact FilAfrik for Accredited status</div></div></div>
+            <div class="cd" style="display:flex;align-items:center;justify-content:space-between;"><div><div class="t3" style="font-size:10px;margin-bottom:3px;text-transform:uppercase;letter-spacing:.08em;">Biometrics</div><div class="t2" style="font-size:12px;">Face ID / Fingerprint login</div></div><div style="width:40px;height:22px;border-radius:11px;background:#C8993A;position:relative;flex-shrink:0;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;right:2px;top:2px;"></div></div></div>
+            <div style="border:1px solid rgba(180,60,60,.25);padding:11px;border-radius:11px;font-size:13px;color:#B05050;text-align:center;">Sign Out</div>
+          </div>
+          <div class="nb2"><div class="ni"><div class="nic">&#127968;</div><div class="nil">Home</div></div><div class="ni"><div class="nic">&#127970;</div><div class="nil">Dir</div></div><div class="ni"><div class="nic">&#10024;</div><div class="nil">AI</div></div><div class="ni"><div class="nic">&#128172;</div><div class="nil">Chat</div></div><div class="ni"><div class="nic big">&#128100;</div><div class="nil act">Me</div><div class="nib"></div></div></div>
+        </div>
+
+        <div class="screen mbg" id="s-admin">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 18px 13px;display:flex;align-items:center;gap:8px;"><div style="background:rgba(200,153,58,.14);border:1px solid rgba(200,153,58,.3);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:600;" class="ac">ADMIN</div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:700;">Panel</div></div>
+          <div style="flex:1;overflow:auto;padding:13px 16px 20px;display:flex;flex-direction:column;gap:11px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;">47</div><div class="t1" style="font-size:12px;font-weight:600;">Members</div><div class="t3" style="font-size:10px;">total</div></div>
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;">3</div><div class="t1" style="font-size:12px;font-weight:600;">Pending</div><div class="t3" style="font-size:10px;">approval</div></div>
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;">12</div><div class="t1" style="font-size:12px;font-weight:600;">Businesses</div><div class="t3" style="font-size:10px;">listed</div></div>
+              <div class="cd"><div class="ac" style="font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;">2</div><div class="t1" style="font-size:12px;font-weight:600;">Accredited</div><div class="t3" style="font-size:10px;">verified</div></div>
+            </div>
+            <div class="t3" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;">Pending Approvals</div>
+            <div class="cd" style="border-color:rgba(200,153,58,.22);"><div style="display:flex;align-items:center;gap:9px;margin-bottom:9px;"><div class="av">GS</div><div><div class="t1" style="font-size:12px;font-weight:600;">Green Savanna Farms</div><div class="t2" style="font-size:10px;">Emeka Nwosu &#183; Agriculture</div></div></div><div style="display:flex;gap:7px;"><div style="flex:1;background:rgba(200,153,58,.12);border:1px solid rgba(200,153,58,.28);border-radius:8px;padding:7px;font-size:12px;font-weight:600;text-align:center;" class="ac">&#10003; Approve</div><div style="flex:1;background:rgba(150,80,80,.1);border:1px solid rgba(150,80,80,.2);border-radius:8px;padding:7px;font-size:12px;color:#A06060;text-align:center;">&#10007; Reject</div></div></div>
+            <div class="t3" style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;">Quick Actions</div>
+            <div class="cd" style="display:flex;align-items:center;gap:9px;"><div style="font-size:19px;">&#128226;</div><div><div class="t1" style="font-size:12px;font-weight:600;">Post Announcement</div><div class="t2" style="font-size:11px;">Broadcast to all members</div></div></div>
+            <div class="cd" style="display:flex;align-items:center;gap:9px;"><div style="font-size:19px;">&#128081;</div><div><div class="t1" style="font-size:12px;font-weight:600;">Grant Accreditation</div><div class="t2" style="font-size:11px;">Upgrade member status</div></div></div>
+          </div>
+        </div>
+
+        <div class="screen mbg" id="s-submit">
+          <div class="stripe"></div>
+          <div class="tb" style="padding:40px 18px 13px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span class="t2" style="font-size:18px;">&#8592;</span><span class="t2" style="font-size:13px;">Directory</span></div><div class="t1" style="font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:700;margin-bottom:3px;">Submit Your Business</div><div class="t2" style="font-size:11px;">Get listed in the FilAfrik founders directory</div></div>
+          <div style="flex:1;overflow:auto;padding:13px 18px;display:flex;flex-direction:column;gap:11px;">
+            <div style="background:rgba(200,153,58,.08);border:1px solid rgba(200,153,58,.2);border-radius:11px;padding:11px;font-size:12px;line-height:1.5;" class="t2">All submissions reviewed by the FilAfrik team. Accreditation is a separate verified process.</div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Business Name</div><div class="inp t3">Tap to enter...</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Owner / Founder</div><div class="inp t3">Tap to enter...</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Industry</div><div class="inp t3">Select...</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">City / Province</div><div class="inp t1">London, ON</div></div>
+            <div><div class="t2" style="font-size:11px;margin-bottom:5px;font-weight:500;">Description</div><div class="inp t3" style="height:60px;">What does your business do?</div></div>
+          </div>
+          <div style="padding:12px 18px 28px;"><div class="gbtn">Submit for Review</div></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="lb" id="lbl">Splash Screen</div>
+    <div class="br2">
+      <button class="bt bt-s" onclick="prev()">&#8592; Prev</button>
+      <button class="bt bt-g" onclick="next()">Next &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var ORDER=['splash','onboard','login','reg1','reg2','reg3','reg4','dash','dir','biz','ai','rooms','room','profile','admin','submit'];
+var LABELS={splash:'Splash Screen',onboard:'Onboarding',login:'Login',reg1:'Register — Account',reg2:'Register — Profile',reg3:'Register — Industry',reg4:'Register — Needs',dash:'Dashboard',dir:'Business Directory',biz:'Business Profile',ai:'AI Resources',rooms:'Community Rooms',room:'Discussion Room',profile:'My Profile',admin:'Admin Panel',submit:'Submit Business'};
+var cur=0;
+
+function render(){
+  var id=ORDER[cur];
+  var ss=document.querySelectorAll('.screen');
+  for(var i=0;i<ss.length;i++) ss[i].classList.remove('show');
+  document.getElementById('s-'+id).classList.add('show');
+  var nbs=document.querySelectorAll('.nb');
+  for(var j=0;j<nbs.length;j++){
+    var a=nbs[j].getAttribute('onclick')||'';
+    nbs[j].classList.toggle('act', a.indexOf("'"+id+"'")>-1);
+  }
+  document.getElementById('lbl').textContent=LABELS[id];
+}
+function go(id){cur=ORDER.indexOf(id);render();}
+function next(){cur=Math.min(cur+1,ORDER.length-1);render();}
+function prev(){cur=Math.max(cur-1,0);render();}
+function setMode(md){
+  var ph=document.getElementById('phone');
+  ph.className='phone '+md;
+  document.getElementById('bd').className='mb'+(md==='dk'?' on':'');
+  document.getElementById('bl').className='mb'+(md==='lt'?' on':'');
+}
+render();
+</script>
+</body>
+</html>

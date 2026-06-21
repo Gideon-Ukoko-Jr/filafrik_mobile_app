@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "23052146055",
+    "project_id": "filafrik-e919a",
+    "storage_bucket": "filafrik-e919a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23052146055:android:bdbd2aa498f72bf4d9ef22",
+        "android_client_info": {
+          "package_name": "com.filafrik.filafrik_mobile_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5krMrEusy7jDlmKsJQ8GIygvahuXc6Aw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

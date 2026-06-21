@@ -1,0 +1,117 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function userDoc(userId) {
+      return get(/databases/$(database)/documents/users/$(userId));
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && userDoc(request.auth.uid).data.isAdmin == true;
+    }
+
+    function protectedUserKeys() {
+      return ['isAdmin', 'isAccredited', 'createdAt', 'uid', 'email'];
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if signedIn();
+      allow create: if isOwner(userId)
+        && request.resource.data.uid == userId
+        && request.resource.data.email is string
+        && request.resource.data.displayName is string
+        && request.resource.data.businessName is string
+        && request.resource.data.industry is string
+        && request.resource.data.businessStage is string
+        && request.resource.data.needs is list
+        && request.resource.data.needs.size() > 0
+        && request.resource.data.isAdmin == false
+        && request.resource.data.isAccredited == false
+        && request.resource.data.biometricEnabled == false;
+      allow update: if isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(protectedUserKeys());
+      allow update: if isAdmin();
+      allow delete: if false;
+
+      match /ai_sessions/{sessionId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    match /businesses/{businessId} {
+      allow read: if signedIn() && resource.data.isListed == true;
+      allow create: if signedIn()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.isListed == false
+        && request.resource.data.isAccredited == false;
+      allow update: if signedIn()
+        && request.auth.uid == resource.data.ownerId
+        && !request.resource.data.diff(resource.data).affectedKeys()
+          .hasAny(['isAccredited', 'isListed', 'ownerId', 'approvedAt', 'accreditedAt']);
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+
+      match /submissions/{submissionId} {
+        allow read: if signedIn() && request.auth.uid == resource.data.submittedBy;
+        allow read, update, delete: if isAdmin();
+        allow create: if signedIn()
+          && request.auth.uid == request.resource.data.submittedBy
+          && request.resource.data.status == 'pending';
+      }
+    }
+
+    match /rooms/{roomId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /posts/{postId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.content is string
+        && request.resource.data.content.size() > 0
+        && request.resource.data.content.size() <= 1000;
+      allow update: if signedIn()
+        && request.auth.uid == resource.data.authorId
+        && !resource.data.isAnnouncement
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['content', 'updatedAt', 'deletedAt']);
+      allow update, delete: if isAdmin();
+
+      match /comments/{commentId} {
+        allow read: if signedIn();
+        allow create: if signedIn()
+          && request.resource.data.authorId == request.auth.uid
+          && request.resource.data.content is string
+          && request.resource.data.content.size() > 0
+          && request.resource.data.content.size() <= 500;
+        allow update: if signedIn()
+          && request.auth.uid == resource.data.authorId
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deletedAt']);
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    match /notifications/{notificationId} {
+      allow read, update, delete: if signedIn() && request.auth.uid == resource.data.recipientId;
+      allow create: if false;
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
