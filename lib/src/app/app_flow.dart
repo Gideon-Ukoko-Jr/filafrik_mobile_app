@@ -10,6 +10,7 @@ import '../features/community/domain/repositories/community_repository.dart';
 import '../features/dashboard/domain/repositories/dashboard_repository.dart';
 import '../features/dashboard/presentation/dashboard_screens.dart';
 import '../features/directory/domain/repositories/directory_repository.dart';
+import '../features/resources/domain/repositories/resource_repository.dart';
 
 class AppFlow extends StatefulWidget {
   const AppFlow({
@@ -18,12 +19,14 @@ class AppFlow extends StatefulWidget {
     required this.dashboardRepository,
     required this.directoryRepository,
     required this.communityRepository,
+    required this.resourceRepository,
   });
 
   final AuthRepository authRepository;
   final DashboardRepository dashboardRepository;
   final DirectoryRepository directoryRepository;
   final CommunityRepository communityRepository;
+  final ResourceRepository resourceRepository;
 
   @override
   State<AppFlow> createState() => _AppFlowState();
@@ -217,6 +220,7 @@ class _AppFlowState extends State<AppFlow> {
         dashboardRepository: widget.dashboardRepository,
         directoryRepository: widget.directoryRepository,
         communityRepository: widget.communityRepository,
+        resourceRepository: widget.resourceRepository,
         selectedIndex: _dashboardTab,
         onSaveProfile: _updateProfile,
         onSignOut: _signOut,

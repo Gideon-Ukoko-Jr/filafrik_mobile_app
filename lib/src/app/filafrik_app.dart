@@ -9,6 +9,8 @@ import '../features/dashboard/data/firebase_dashboard_repository.dart';
 import '../features/dashboard/domain/repositories/dashboard_repository.dart';
 import '../features/directory/data/firebase_directory_repository.dart';
 import '../features/directory/domain/repositories/directory_repository.dart';
+import '../features/resources/data/firebase_resource_repository.dart';
+import '../features/resources/domain/repositories/resource_repository.dart';
 import 'app_flow.dart';
 
 class FilAfrikApp extends StatelessWidget {
@@ -18,12 +20,14 @@ class FilAfrikApp extends StatelessWidget {
     this.dashboardRepository,
     this.directoryRepository,
     this.communityRepository,
+    this.resourceRepository,
   });
 
   final AuthRepository? authRepository;
   final DashboardRepository? dashboardRepository;
   final DirectoryRepository? directoryRepository;
   final CommunityRepository? communityRepository;
+  final ResourceRepository? resourceRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,8 @@ class FilAfrikApp extends StatelessWidget {
             directoryRepository ?? FirebaseDirectoryRepository(),
         communityRepository:
             communityRepository ?? FirebaseCommunityRepository(),
+        resourceRepository:
+            resourceRepository ?? FirebaseResourceRepository(),
       ),
     );
   }

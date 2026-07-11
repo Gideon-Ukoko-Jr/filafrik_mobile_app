@@ -9,10 +9,11 @@ import '../../../community/presentation/community_screens.dart';
 import '../../../directory/domain/repositories/directory_repository.dart';
 import '../../../directory/presentation/directory_screens.dart';
 import '../../../profile/presentation/profile_screens.dart';
+import '../../../resources/domain/repositories/resource_repository.dart';
+import '../../../resources/presentation/resources_screens.dart';
 import '../../domain/repositories/dashboard_repository.dart';
 import '../widgets/dashboard_widgets.dart';
 import 'home_dashboard.dart';
-import 'placeholder_tab.dart';
 
 class DashboardShell extends StatefulWidget {
   const DashboardShell({
@@ -21,6 +22,7 @@ class DashboardShell extends StatefulWidget {
     required this.dashboardRepository,
     required this.directoryRepository,
     required this.communityRepository,
+    required this.resourceRepository,
     required this.selectedIndex,
     required this.onSaveProfile,
     required this.onSignOut,
@@ -31,6 +33,7 @@ class DashboardShell extends StatefulWidget {
   final DashboardRepository dashboardRepository;
   final DirectoryRepository directoryRepository;
   final CommunityRepository communityRepository;
+  final ResourceRepository resourceRepository;
   final int selectedIndex;
   final Future<void> Function(FounderProfile profile) onSaveProfile;
   final Future<void> Function() onSignOut;
@@ -95,10 +98,9 @@ class _DashboardShellState extends State<DashboardShell> {
                 onBack: _closeBusinessProfile,
               ),
             ),
-      const PlaceholderTab(
-        title: 'AI Resources',
-        subtitle: 'Grant matching and resource cards come next.',
-        icon: Icons.auto_awesome,
+      AIResourcesScreen(
+        profile: widget.profile,
+        resourceRepository: widget.resourceRepository,
       ),
       communityRoom == null
           ? CommunityRoomsScreen(onRoomSelected: _openDiscussionRoom)
