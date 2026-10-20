@@ -155,12 +155,12 @@ class DashboardStats extends StatelessWidget {
     return FutureBuilder<DashboardStatsData>(
       future: dashboardRepository.loadHomeStats(),
       builder: (context, snapshot) {
-        final members = snapshot.data?.members;
+        final data = snapshot.data;
         final stats = [
-          (members?.toString() ?? '...', 'Members'),
-          ('0', 'Businesses'),
-          ('0', 'Rooms'),
-          ('0', 'Events'),
+          (data?.members.toString() ?? '...', 'Members'),
+          (data?.listedBusinesses.toString() ?? '...', 'Businesses'),
+          (data?.rooms.toString() ?? '...', 'Rooms'),
+          (data?.announcements.toString() ?? '...', 'Announcements'),
         ];
 
         return _StatsGrid(stats: stats);

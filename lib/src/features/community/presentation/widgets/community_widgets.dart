@@ -67,12 +67,14 @@ class CommunityRoomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // exclusive + no onTap = locked; exclusive + onTap = accredited member, unlocked
+    final locked = room.exclusive && onTap == null;
     final content = AppCard(
       child: Opacity(
-        opacity: room.exclusive ? .55 : 1,
+        opacity: locked ? .55 : 1,
         child: Row(
           children: [
-            RoomIcon(emoji: room.emoji, locked: room.exclusive),
+            RoomIcon(emoji: room.emoji, locked: locked),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -101,8 +103,10 @@ class CommunityRoomTile extends StatelessWidget {
                 ],
               ),
             ),
-            if (room.exclusive)
+            if (locked)
               const Text('🔒', style: TextStyle(fontSize: 18))
+            else if (room.exclusive)
+              const Text('👑', style: TextStyle(fontSize: 16))
             else
               Text(
                 room.lastActive,

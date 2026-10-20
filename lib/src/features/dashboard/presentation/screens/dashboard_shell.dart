@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../shared/widgets/app_widgets.dart';
+import '../../../admin/domain/repositories/admin_repository.dart';
+import '../../../admin/presentation/admin_screens.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../../../community/domain/models/community_room.dart';
 import '../../../community/domain/repositories/community_repository.dart';
@@ -23,6 +25,7 @@ class DashboardShell extends StatefulWidget {
     required this.directoryRepository,
     required this.communityRepository,
     required this.resourceRepository,
+    required this.adminRepository,
     required this.selectedIndex,
     required this.onSaveProfile,
     required this.onSignOut,
@@ -34,6 +37,7 @@ class DashboardShell extends StatefulWidget {
   final DirectoryRepository directoryRepository;
   final CommunityRepository communityRepository;
   final ResourceRepository resourceRepository;
+  final AdminRepository adminRepository;
   final int selectedIndex;
   final Future<void> Function(FounderProfile profile) onSaveProfile;
   final Future<void> Function() onSignOut;
@@ -46,14 +50,19 @@ class DashboardShell extends StatefulWidget {
 class _DashboardShellState extends State<DashboardShell> {
   FounderProfile? _selectedDirectoryProfile;
   CommunityRoom? _selectedCommunityRoom;
+  bool _showAdminPanel = false;
 
   void _selectTab(int index) {
     setState(() {
       _selectedDirectoryProfile = null;
       _selectedCommunityRoom = null;
+      _showAdminPanel = false;
     });
     widget.onTabSelected(index);
   }
+
+  void _openAdminPanel() => setState(() => _showAdminPanel = true);
+  void _closeAdminPanel() => setState(() => _showAdminPanel = false);
 
   void _openBusinessProfile(FounderProfile profile) {
     setState(() => _selectedDirectoryProfile = profile);
@@ -75,6 +84,8 @@ class _DashboardShellState extends State<DashboardShell> {
   Widget build(BuildContext context) {
     final directoryProfile = _selectedDirectoryProfile;
     final communityRoom = _selectedCommunityRoom;
+    final viewerIsAdmin = widget.profile?.isAdmin == true;
+
     final pages = [
       HomeDashboard(
         profile: widget.profile,
@@ -96,6 +107,11 @@ class _DashboardShellState extends State<DashboardShell> {
               child: BusinessProfileScreen(
                 profile: directoryProfile,
                 onBack: _closeBusinessProfile,
+                viewerIsAdmin: viewerIsAdmin,
+                onToggleAccreditation: viewerIsAdmin
+                    ? (uid, isAccredited) => widget.adminRepository
+                        .setAccreditation(uid, isAccredited: isAccredited)
+                    : null,
               ),
             ),
       AIResourcesScreen(
@@ -103,7 +119,10 @@ class _DashboardShellState extends State<DashboardShell> {
         resourceRepository: widget.resourceRepository,
       ),
       communityRoom == null
-          ? CommunityRoomsScreen(onRoomSelected: _openDiscussionRoom)
+          ? CommunityRoomsScreen(
+              profile: widget.profile,
+              onRoomSelected: _openDiscussionRoom,
+            )
           : GestureDetector(
               onHorizontalDragEnd: (details) {
                 if ((details.primaryVelocity ?? 0) > 200) {
@@ -121,6 +140,7 @@ class _DashboardShellState extends State<DashboardShell> {
         profile: widget.profile,
         onSaveProfile: widget.onSaveProfile,
         onSignOut: widget.onSignOut,
+        onOpenAdminPanel: viewerIsAdmin ? _openAdminPanel : null,
       ),
     ];
 
@@ -128,7 +148,9 @@ class _DashboardShellState extends State<DashboardShell> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        if (_selectedDirectoryProfile != null) {
+        if (_showAdminPanel) {
+          _closeAdminPanel();
+        } else if (_selectedDirectoryProfile != null) {
           _closeBusinessProfile();
         } else if (_selectedCommunityRoom != null) {
           _closeDiscussionRoom();
@@ -137,18 +159,23 @@ class _DashboardShellState extends State<DashboardShell> {
         }
       },
       child: AppScaffold(
-        child: Stack(
-          children: [
-            Positioned.fill(child: pages[widget.selectedIndex]),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: AppBottomNav(
-                selectedIndex: widget.selectedIndex,
-                onSelected: _selectTab,
+        child: _showAdminPanel
+            ? AdminPanelScreen(
+                adminRepository: widget.adminRepository,
+                onBack: _closeAdminPanel,
+              )
+            : Stack(
+                children: [
+                  Positioned.fill(child: pages[widget.selectedIndex]),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: AppBottomNav(
+                      selectedIndex: widget.selectedIndex,
+                      onSelected: _selectTab,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

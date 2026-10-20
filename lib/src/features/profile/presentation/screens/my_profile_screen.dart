@@ -11,11 +11,13 @@ class MyProfileScreen extends StatefulWidget {
     required this.profile,
     required this.onSaveProfile,
     required this.onSignOut,
+    this.onOpenAdminPanel,
   });
 
   final FounderProfile? profile;
   final Future<void> Function(FounderProfile profile) onSaveProfile;
   final Future<void> Function() onSignOut;
+  final VoidCallback? onOpenAdminPanel;
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
@@ -219,7 +221,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     isSaving: _isSaving,
                     onSave: _save,
                   )
-                : _ProfileDetails(profile: profile, onSignOut: _signOut),
+                : _ProfileDetails(
+                    profile: profile,
+                    onSignOut: _signOut,
+                    onOpenAdminPanel: widget.onOpenAdminPanel,
+                  ),
           ),
         ],
       ),
@@ -388,10 +394,15 @@ class _ProfileAvatar extends StatelessWidget {
 }
 
 class _ProfileDetails extends StatelessWidget {
-  const _ProfileDetails({required this.profile, required this.onSignOut});
+  const _ProfileDetails({
+    required this.profile,
+    required this.onSignOut,
+    this.onOpenAdminPanel,
+  });
 
   final FounderProfile profile;
   final VoidCallback onSignOut;
+  final VoidCallback? onOpenAdminPanel;
 
   @override
   Widget build(BuildContext context) {
@@ -474,6 +485,35 @@ class _ProfileDetails extends StatelessWidget {
             ],
           ),
         ),
+        if (profile.isAdmin && onOpenAdminPanel != null) ...[
+          const SizedBox(height: 10),
+          GestureDetector(
+            onTap: onOpenAdminPanel,
+            child: Container(
+              padding: const EdgeInsets.all(11),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(11),
+                border: Border.all(color: AppColors.red.withValues(alpha: .3)),
+                color: AppColors.red.withValues(alpha: .06),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('🛡️', style: TextStyle(fontSize: 14)),
+                  SizedBox(width: 7),
+                  Text(
+                    'Admin Panel',
+                    style: TextStyle(
+                      color: Color(0xFFB05050),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
         const SizedBox(height: 10),
         GestureDetector(
           onTap: onSignOut,

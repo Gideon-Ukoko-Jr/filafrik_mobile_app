@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../core/app_colors.dart';
+import '../features/admin/data/firebase_admin_repository.dart';
+import '../features/admin/domain/repositories/admin_repository.dart';
 import '../features/auth/data/firebase_auth_repository.dart';
 import '../features/auth/domain/repositories/auth_repository.dart';
 import '../features/community/data/firebase_community_repository.dart';
@@ -21,6 +23,7 @@ class FilAfrikApp extends StatelessWidget {
     this.directoryRepository,
     this.communityRepository,
     this.resourceRepository,
+    this.adminRepository,
   });
 
   final AuthRepository? authRepository;
@@ -28,6 +31,7 @@ class FilAfrikApp extends StatelessWidget {
   final DirectoryRepository? directoryRepository;
   final CommunityRepository? communityRepository;
   final ResourceRepository? resourceRepository;
+  final AdminRepository? adminRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +57,8 @@ class FilAfrikApp extends StatelessWidget {
             communityRepository ?? FirebaseCommunityRepository(),
         resourceRepository:
             resourceRepository ?? FirebaseResourceRepository(),
+        adminRepository:
+            adminRepository ?? FirebaseAdminRepository(),
       ),
     );
   }

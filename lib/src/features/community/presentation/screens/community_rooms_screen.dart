@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_colors.dart';
+import '../../../auth/domain/models/founder_profile.dart';
 import '../../domain/models/community_room.dart';
 import '../widgets/community_widgets.dart';
 
 class CommunityRoomsScreen extends StatelessWidget {
-  const CommunityRoomsScreen({super.key, required this.onRoomSelected});
+  const CommunityRoomsScreen({
+    super.key,
+    required this.profile,
+    required this.onRoomSelected,
+  });
 
+  final FounderProfile? profile;
   final ValueChanged<CommunityRoom> onRoomSelected;
 
   @override
@@ -35,7 +41,12 @@ class CommunityRoomsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 const CommunitySectionLabel('Exclusive'),
-                CommunityRoomTile(room: accreditedLoungeRoom, onTap: null),
+                CommunityRoomTile(
+                  room: accreditedLoungeRoom,
+                  onTap: profile?.isAccredited == true
+                      ? () => onRoomSelected(accreditedLoungeRoom)
+                      : null,
+                ),
                 const SizedBox(height: 8),
                 const Text(
                   'Room activity is placeholder data until community posts are connected.',

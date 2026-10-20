@@ -7,38 +7,77 @@ import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../widgets/directory_widgets.dart';
 
-class BusinessProfileScreen extends StatelessWidget {
+class BusinessProfileScreen extends StatefulWidget {
   const BusinessProfileScreen({
     super.key,
     required this.profile,
     required this.onBack,
+    this.viewerIsAdmin = false,
+    this.onToggleAccreditation,
   });
 
   final FounderProfile profile;
   final VoidCallback onBack;
+  final bool viewerIsAdmin;
+  final Future<void> Function(String uid, bool isAccredited)? onToggleAccreditation;
+
+  @override
+  State<BusinessProfileScreen> createState() => _BusinessProfileScreenState();
+}
+
+class _BusinessProfileScreenState extends State<BusinessProfileScreen> {
+  bool _isTogglingAccreditation = false;
+  late bool _localIsAccredited;
+
+  @override
+  void initState() {
+    super.initState();
+    _localIsAccredited = widget.profile.isAccredited;
+  }
+
+  @override
+  void didUpdateWidget(covariant BusinessProfileScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_isTogglingAccreditation) {
+      _localIsAccredited = widget.profile.isAccredited;
+    }
+  }
+
+  Future<void> _toggleAccreditation() async {
+    final toggle = widget.onToggleAccreditation;
+    if (toggle == null || _isTogglingAccreditation) return;
+    setState(() => _isTogglingAccreditation = true);
+    try {
+      final newValue = !_localIsAccredited;
+      await toggle(widget.profile.uid, newValue);
+      if (mounted) setState(() => _localIsAccredited = newValue);
+    } finally {
+      if (mounted) setState(() => _isTogglingAccreditation = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final founderName = _valueOrFallback(
-      profile.displayName,
+      widget.profile.displayName,
       'Founder not available',
     );
     final businessName = _valueOrFallback(
-      profile.businessName,
+      widget.profile.businessName,
       'Business not available',
     );
-    final website = normalizedWebsiteUrl(profile.website);
-    final contactEmail = _normalizedEmail(profile.email);
+    final website = normalizedWebsiteUrl(widget.profile.website);
+    final contactEmail = _normalizedEmail(widget.profile.email);
 
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           BusinessProfileHeader(
-            profile: profile,
+            profile: widget.profile,
             businessName: businessName,
             founderName: founderName,
-            onBack: onBack,
+            onBack: widget.onBack,
           ),
           Expanded(
             child: ListView(
@@ -46,7 +85,7 @@ class BusinessProfileScreen extends StatelessWidget {
               children: [
                 Text(
                   _valueOrFallback(
-                    profile.bio,
+                    widget.profile.bio,
                     'Business description not available.',
                   ),
                   style: const TextStyle(
@@ -67,18 +106,21 @@ class BusinessProfileScreen extends StatelessWidget {
                     ProfileFactCard(
                       label: 'Industry',
                       value: _valueOrFallback(
-                        profile.industry,
+                        widget.profile.industry,
                         'Not available',
                       ),
                     ),
                     ProfileFactCard(
                       label: 'Location',
-                      value: _valueOrFallback(profile.city, 'Not available'),
+                      value: _valueOrFallback(
+                        widget.profile.city,
+                        'Not available',
+                      ),
                     ),
                     ProfileFactCard(
                       label: 'Stage',
                       value: _valueOrFallback(
-                        profile.businessStage,
+                        widget.profile.businessStage,
                         'Not available',
                       ),
                     ),
@@ -89,7 +131,7 @@ class BusinessProfileScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 13),
-                BusinessNeedsRow(needs: profile.needs),
+                BusinessNeedsRow(needs: widget.profile.needs),
                 const SizedBox(height: 14),
                 ProfileActionButton(
                   label: contactEmail == null
@@ -109,6 +151,14 @@ class BusinessProfileScreen extends StatelessWidget {
                   disabled: website == null,
                   onTap: website == null ? null : () => _openWebsite(website),
                 ),
+                if (widget.viewerIsAdmin) ...[
+                  const SizedBox(height: 16),
+                  _AdminAccreditationButton(
+                    isAccredited: _localIsAccredited,
+                    isLoading: _isTogglingAccreditation,
+                    onTap: _toggleAccreditation,
+                  ),
+                ],
               ],
             ),
           ),
@@ -161,6 +211,108 @@ class BusinessProfileScreen extends StatelessWidget {
         const SnackBar(content: Text('Email app could not be opened.')),
       );
     }
+  }
+}
+
+class _AdminAccreditationButton extends StatelessWidget {
+  const _AdminAccreditationButton({
+    required this.isAccredited,
+    required this.isLoading,
+    required this.onTap,
+  });
+
+  final bool isAccredited;
+  final bool isLoading;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: AppColors.red.withValues(alpha: .08),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+            ),
+            border: Border(
+              top: BorderSide(color: AppColors.red.withValues(alpha: .2)),
+              left: BorderSide(color: AppColors.red.withValues(alpha: .2)),
+              right: BorderSide(color: AppColors.red.withValues(alpha: .2)),
+            ),
+          ),
+          child: const Text(
+            'Admin Action',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFFB05050),
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              letterSpacing: .5,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: isLoading ? null : onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 13),
+            decoration: BoxDecoration(
+              color: isAccredited
+                  ? AppColors.red.withValues(alpha: .08)
+                  : AppColors.gold.withValues(alpha: .10),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
+              border: Border(
+                bottom: BorderSide(
+                  color: isAccredited
+                      ? AppColors.red.withValues(alpha: .2)
+                      : AppColors.gold.withValues(alpha: .3),
+                ),
+                left: BorderSide(
+                  color: isAccredited
+                      ? AppColors.red.withValues(alpha: .2)
+                      : AppColors.gold.withValues(alpha: .3),
+                ),
+                right: BorderSide(
+                  color: isAccredited
+                      ? AppColors.red.withValues(alpha: .2)
+                      : AppColors.gold.withValues(alpha: .3),
+                ),
+              ),
+            ),
+            child: isLoading
+                ? const Center(
+                    child: SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        color: AppColors.gold,
+                        strokeWidth: 1.5,
+                      ),
+                    ),
+                  )
+                : Text(
+                    isAccredited
+                        ? 'Revoke Accredited Status'
+                        : 'Grant Accredited Status',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: isAccredited
+                          ? const Color(0xFFB05050)
+                          : AppColors.gold,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

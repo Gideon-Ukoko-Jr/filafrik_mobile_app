@@ -1,6 +1,8 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../features/admin/domain/repositories/admin_repository.dart';
 import '../features/auth/application/registration_draft.dart';
 import '../features/auth/data/firebase_auth_repository.dart';
 import '../features/auth/domain/models/founder_profile.dart';
@@ -20,6 +22,7 @@ class AppFlow extends StatefulWidget {
     required this.directoryRepository,
     required this.communityRepository,
     required this.resourceRepository,
+    required this.adminRepository,
   });
 
   final AuthRepository authRepository;
@@ -27,6 +30,7 @@ class AppFlow extends StatefulWidget {
   final DirectoryRepository directoryRepository;
   final CommunityRepository communityRepository;
   final ResourceRepository resourceRepository;
+  final AdminRepository adminRepository;
 
   @override
   State<AppFlow> createState() => _AppFlowState();
@@ -86,6 +90,7 @@ class _AppFlowState extends State<AppFlow> {
         profile: draftProfile,
       );
       _currentProfile = profile;
+      FirebaseAnalytics.instance.logSignUp(signUpMethod: 'email_password').ignore();
       _enterDashboard();
     } catch (error) {
       debugPrint('Registration failed: $error');
@@ -109,6 +114,7 @@ class _AppFlowState extends State<AppFlow> {
         password: password,
       );
       _currentProfile = profile;
+      FirebaseAnalytics.instance.logLogin(loginMethod: 'email_password').ignore();
       _enterDashboard();
     } catch (error) {
       debugPrint('Sign in failed: $error');
@@ -221,6 +227,7 @@ class _AppFlowState extends State<AppFlow> {
         directoryRepository: widget.directoryRepository,
         communityRepository: widget.communityRepository,
         resourceRepository: widget.resourceRepository,
+        adminRepository: widget.adminRepository,
         selectedIndex: _dashboardTab,
         onSaveProfile: _updateProfile,
         onSignOut: _signOut,
