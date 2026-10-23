@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 
@@ -40,8 +40,8 @@ class DirectoryCard extends StatelessWidget {
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: AppColors.text,
+                              style: TextStyle(
+                                color: context.colors.text,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -51,8 +51,8 @@ class DirectoryCard extends StatelessWidget {
                               'by ${_valueOrFallback(profile.displayName, 'Founder not available')}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: AppColors.muted,
+                              style: TextStyle(
+                                color: context.colors.muted,
                                 fontSize: 10,
                               ),
                             ),
@@ -74,7 +74,7 @@ class DirectoryCard extends StatelessWidget {
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: AppColors.muted, fontSize: 11),
+              style: TextStyle(color: context.colors.muted, fontSize: 11),
             ),
           ],
         ),
@@ -104,21 +104,21 @@ class BusinessMark extends StatelessWidget {
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.forest, AppColors.green],
+          colors: [context.colors.forest, context.colors.green],
         ),
         borderRadius: BorderRadius.circular(rounded ? 14 : size / 2),
         border: Border.all(
-          color: AppColors.gold.withValues(alpha: .35),
+          color: context.colors.gold.withValues(alpha: .35),
           width: 1.5,
         ),
       ),
       child: Text(
         initials,
         style: TextStyle(
-          color: AppColors.text,
+          color: context.colors.text,
           fontSize: size >= 48 ? 16 : 11,
           fontWeight: FontWeight.w800,
         ),
@@ -160,12 +160,12 @@ class DirectoryFilterPill extends StatelessWidget {
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 13),
         decoration: BoxDecoration(
-          color: selected ? AppColors.gold : Colors.transparent,
+          color: selected ? context.colors.gold : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: selected
-                ? AppColors.gold
-                : AppColors.gold.withValues(alpha: .35),
+                ? context.colors.gold
+                : context.colors.gold.withValues(alpha: .35),
           ),
         ),
         child: Text(
@@ -173,7 +173,7 @@ class DirectoryFilterPill extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            color: selected ? AppColors.background : AppColors.muted,
+            color: selected ? context.colors.background : context.colors.muted,
             fontSize: 11,
             fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
           ),
@@ -194,19 +194,19 @@ class MemberBadge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
       decoration: BoxDecoration(
         color: isAccredited
-            ? AppColors.gold.withValues(alpha: .13)
-            : AppColors.green.withValues(alpha: .10),
+            ? context.colors.gold.withValues(alpha: .13)
+            : context.colors.green.withValues(alpha: .10),
         border: Border.all(
           color: isAccredited
-              ? AppColors.gold.withValues(alpha: .30)
-              : AppColors.green.withValues(alpha: .20),
+              ? context.colors.gold.withValues(alpha: .30)
+              : context.colors.green.withValues(alpha: .20),
         ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         isAccredited ? '✦ Accredited' : 'Listed',
         style: TextStyle(
-          color: isAccredited ? AppColors.gold : AppColors.green,
+          color: isAccredited ? context.colors.gold : context.colors.green,
           fontSize: 9,
           fontWeight: isAccredited ? FontWeight.w700 : FontWeight.w500,
         ),
@@ -230,15 +230,15 @@ class ProfileFactCard extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(color: AppColors.dim, fontSize: 10),
+            style: TextStyle(color: context.colors.dim, fontSize: 10),
           ),
           const SizedBox(height: 4),
           Text(
             value,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.text,
+            style: TextStyle(
+              color: context.colors.text,
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
@@ -259,13 +259,13 @@ class UnavailablePill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.gold.withValues(alpha: .18)),
+        border: Border.all(color: context.colors.gold.withValues(alpha: .18)),
       ),
       child: Text(
         label,
-        style: const TextStyle(color: AppColors.muted, fontSize: 10),
+        style: TextStyle(color: context.colors.muted, fontSize: 10),
       ),
     );
   }

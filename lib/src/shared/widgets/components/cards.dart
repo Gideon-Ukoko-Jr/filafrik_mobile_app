@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/app_color_scheme.dart';
 
 class AppCard extends StatelessWidget {
   const AppCard({super.key, required this.child, this.accent = false});
@@ -13,10 +13,10 @@ class AppCard extends StatelessWidget {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: AppColors.gold.withValues(alpha: accent ? .35 : .18),
+          color: context.colors.gold.withValues(alpha: accent ? .35 : .18),
         ),
       ),
       child: Stack(
@@ -43,18 +43,18 @@ class Avatar extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const LinearGradient(
-          colors: [AppColors.forest, AppColors.green],
+        gradient: LinearGradient(
+          colors: [context.colors.forest, context.colors.green],
         ),
         border: Border.all(
-          color: AppColors.gold.withValues(alpha: .35),
+          color: context.colors.gold.withValues(alpha: .35),
           width: 1.5,
         ),
       ),
       child: Text(
         initials,
-        style: const TextStyle(
-          color: AppColors.text,
+        style: TextStyle(
+          color: context.colors.text,
           fontSize: 12,
           fontWeight: FontWeight.w800,
         ),
@@ -70,9 +70,9 @@ class AccentStripe extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 2,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppColors.forest, AppColors.gold, AppColors.forest],
+          colors: [context.colors.forest, context.colors.gold, context.colors.forest],
         ),
       ),
     );

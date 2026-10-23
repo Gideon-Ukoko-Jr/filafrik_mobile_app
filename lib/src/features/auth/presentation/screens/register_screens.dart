@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../core/website_url.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../application/registration_draft.dart';
@@ -79,15 +79,15 @@ class _RegisterAccountScreenState extends State<RegisterAccountScreen> {
           PrimaryButton(label: 'Continue →', onPressed: _continue),
           TextButton(
             onPressed: widget.onSignIn,
-            child: const Text(
+            child: Text(
               'Already a member? Sign In',
-              style: TextStyle(color: AppColors.muted, fontSize: 12),
+              style: TextStyle(color: context.colors.muted, fontSize: 12),
             ),
           ),
-          const Text(
+          Text(
             "By continuing you agree to FilAfrik's Terms of Service",
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.dim, fontSize: 11),
+            style: TextStyle(color: context.colors.dim, fontSize: 11),
           ),
         ],
       ),
@@ -426,8 +426,8 @@ class RegisterLayout extends StatelessWidget {
               const SizedBox(height: 14),
               Text(
                 'Step $step of 4'.toUpperCase(),
-                style: const TextStyle(
-                  color: AppColors.gold,
+                style: TextStyle(
+                  color: context.colors.gold,
                   fontSize: 10,
                   letterSpacing: 1.1,
                   fontWeight: FontWeight.w700,
@@ -439,7 +439,7 @@ class RegisterLayout extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   subtitle!,
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                  style: TextStyle(color: context.colors.muted, fontSize: 12),
                 ),
               ],
               const SizedBox(height: 18),

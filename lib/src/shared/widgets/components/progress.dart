@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/app_color_scheme.dart';
 
 class ProgressBars extends StatelessWidget {
   const ProgressBars({super.key, required this.step});
@@ -18,8 +18,8 @@ class ProgressBars extends StatelessWidget {
             margin: EdgeInsets.only(right: index == 3 ? 0 : 4),
             decoration: BoxDecoration(
               color: active
-                  ? AppColors.gold
-                  : AppColors.gold.withValues(alpha: .2),
+                  ? context.colors.gold
+                  : context.colors.gold.withValues(alpha: .2),
               borderRadius: BorderRadius.circular(2),
             ),
           ),

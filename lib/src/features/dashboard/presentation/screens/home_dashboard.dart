@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../../domain/repositories/dashboard_repository.dart';
@@ -39,7 +39,7 @@ class HomeDashboard extends StatelessWidget {
                   children: [
                     Text(
                       'Good morning,',
-                      style: TextStyle(color: AppColors.muted, fontSize: 12),
+                      style: TextStyle(color: context.colors.muted, fontSize: 12),
                     ),
                     AppTitle(displayName, size: 21),
                   ],

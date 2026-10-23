@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/app_color_scheme.dart';
 import 'typography.dart';
 
 class AppInput extends StatelessWidget {
@@ -34,18 +34,18 @@ class AppInput extends StatelessWidget {
           alignment: height > 52 ? Alignment.topLeft : Alignment.centerLeft,
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.colors.surface,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: focused
-                  ? AppColors.gold
-                  : AppColors.gold.withValues(alpha: .18),
+                  ? context.colors.gold
+                  : context.colors.gold.withValues(alpha: .18),
             ),
           ),
           child: Text(
             obscure && value == null ? '' : text,
             style: TextStyle(
-              color: value == null ? AppColors.dim : AppColors.text,
+              color: value == null ? context.colors.dim : context.colors.text,
               fontSize: 13,
             ),
           ),
@@ -92,13 +92,13 @@ class AppTextField extends StatelessWidget {
           textInputAction: textInputAction,
           maxLines: obscure ? 1 : maxLines,
           minLines: maxLines > 1 ? maxLines : null,
-          style: const TextStyle(color: AppColors.text, fontSize: 13),
-          cursorColor: AppColors.gold,
+          style: TextStyle(color: context.colors.text, fontSize: 13),
+          cursorColor: context.colors.gold,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: AppColors.dim, fontSize: 13),
+            hintStyle: TextStyle(color: context.colors.dim, fontSize: 13),
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: context.colors.surface,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 14,
               vertical: 13,
@@ -106,12 +106,12 @@ class AppTextField extends StatelessWidget {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: AppColors.gold.withValues(alpha: .18),
+                color: context.colors.gold.withValues(alpha: .18),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.gold),
+              borderSide: BorderSide(color: context.colors.gold),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -141,20 +141,20 @@ class ChoiceChipView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 11),
       decoration: BoxDecoration(
         color: selected
-            ? AppColors.gold.withValues(alpha: .13)
-            : AppColors.surface,
+            ? context.colors.gold.withValues(alpha: .13)
+            : context.colors.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: selected
-              ? AppColors.gold
-              : AppColors.gold.withValues(alpha: .18),
+              ? context.colors.gold
+              : context.colors.gold.withValues(alpha: .18),
         ),
       ),
       child: Text(
         selected ? '✓ $label' : label,
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: selected ? AppColors.gold : AppColors.muted,
+          color: selected ? context.colors.gold : context.colors.muted,
           fontSize: 12,
           fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
         ),
@@ -175,13 +175,13 @@ class StageTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
       decoration: BoxDecoration(
         color: selected
-            ? AppColors.gold.withValues(alpha: .12)
-            : AppColors.surface,
+            ? context.colors.gold.withValues(alpha: .12)
+            : context.colors.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: selected
-              ? AppColors.gold
-              : AppColors.gold.withValues(alpha: .18),
+              ? context.colors.gold
+              : context.colors.gold.withValues(alpha: .18),
         ),
       ),
       child: Row(
@@ -190,16 +190,16 @@ class StageTile extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                color: selected ? AppColors.gold : AppColors.muted,
+                color: selected ? context.colors.gold : context.colors.muted,
                 fontSize: 13,
               ),
             ),
           ),
           if (selected)
-            const Text(
+            Text(
               '✓',
               style: TextStyle(
-                color: AppColors.gold,
+                color: context.colors.gold,
                 fontWeight: FontWeight.w800,
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../../domain/models/community_room.dart';
 import '../widgets/community_widgets.dart';
@@ -48,9 +48,9 @@ class CommunityRoomsScreen extends StatelessWidget {
                       : null,
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Room activity is placeholder data until community posts are connected.',
-                  style: TextStyle(color: AppColors.dim, fontSize: 10),
+                  style: TextStyle(color: context.colors.dim, fontSize: 10),
                 ),
               ],
             ),

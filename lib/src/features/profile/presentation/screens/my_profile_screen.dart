@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../core/website_url.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
@@ -12,12 +12,16 @@ class MyProfileScreen extends StatefulWidget {
     required this.onSaveProfile,
     required this.onSignOut,
     this.onOpenAdminPanel,
+    required this.themeMode,
+    required this.onThemeModeChanged,
   });
 
   final FounderProfile? profile;
   final Future<void> Function(FounderProfile profile) onSaveProfile;
   final Future<void> Function() onSignOut;
   final VoidCallback? onOpenAdminPanel;
+  final ThemeMode themeMode;
+  final Future<void> Function(ThemeMode) onThemeModeChanged;
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
@@ -184,11 +188,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Widget build(BuildContext context) {
     final profile = widget.profile;
     if (profile == null) {
-      return const SafeArea(
+      return SafeArea(
         child: Center(
           child: Text(
             'Profile not available.',
-            style: TextStyle(color: AppColors.muted),
+            style: TextStyle(color: context.colors.muted),
           ),
         ),
       );
@@ -225,6 +229,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     profile: profile,
                     onSignOut: _signOut,
                     onOpenAdminPanel: widget.onOpenAdminPanel,
+                    themeMode: widget.themeMode,
+                    onThemeModeChanged: widget.onThemeModeChanged,
                   ),
           ),
         ],
@@ -258,9 +264,9 @@ class MyProfileHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 37, 18, 14),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         border: Border(
-          bottom: BorderSide(color: AppColors.gold.withValues(alpha: .18)),
+          bottom: BorderSide(color: context.colors.gold.withValues(alpha: .18)),
         ),
       ),
       child: Column(
@@ -299,8 +305,8 @@ class MyProfileHeader extends StatelessWidget {
                         profile.businessName,
                         'Business not available',
                       ),
-                      style: const TextStyle(
-                        color: AppColors.gold,
+                      style: TextStyle(
+                        color: context.colors.gold,
                         fontSize: 12,
                       ),
                     ),
@@ -310,8 +316,8 @@ class MyProfileHeader extends StatelessWidget {
                       '${_valueOrFallback(profile.businessStage, 'Stage not available')} · $city',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: AppColors.muted,
+                      style: TextStyle(
+                        color: context.colors.muted,
                         fontSize: 11,
                       ),
                     ),
@@ -344,14 +350,14 @@ class _HeaderAction extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
         decoration: BoxDecoration(
-          color: filled ? AppColors.gold : Colors.transparent,
+          color: filled ? context.colors.gold : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.gold, width: 1.5),
+          border: Border.all(color: context.colors.gold, width: 1.5),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: filled ? AppColors.background : AppColors.gold,
+            color: filled ? context.colors.background : context.colors.gold,
             fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
@@ -374,17 +380,17 @@ class _ProfileAvatar extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.forest, AppColors.green],
+          colors: [context.colors.forest, context.colors.green],
         ),
-        border: Border.all(color: AppColors.gold, width: 2),
+        border: Border.all(color: context.colors.gold, width: 2),
       ),
       child: Text(
         initials,
-        style: const TextStyle(
-          color: AppColors.text,
+        style: TextStyle(
+          color: context.colors.text,
           fontSize: 19,
           fontWeight: FontWeight.w800,
         ),
@@ -398,11 +404,15 @@ class _ProfileDetails extends StatelessWidget {
     required this.profile,
     required this.onSignOut,
     this.onOpenAdminPanel,
+    required this.themeMode,
+    required this.onThemeModeChanged,
   });
 
   final FounderProfile profile;
   final VoidCallback onSignOut;
   final VoidCallback? onOpenAdminPanel;
+  final ThemeMode themeMode;
+  final Future<void> Function(ThemeMode) onThemeModeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -413,8 +423,8 @@ class _ProfileDetails extends StatelessWidget {
           label: 'About',
           child: Text(
             _valueOrFallback(profile.bio, 'About not available.'),
-            style: const TextStyle(
-              color: AppColors.muted,
+            style: TextStyle(
+              color: context.colors.muted,
               fontSize: 12,
               height: 1.6,
             ),
@@ -424,8 +434,8 @@ class _ProfileDetails extends StatelessWidget {
           label: 'Website',
           child: Text(
             _valueOrFallback(profile.website, 'Website not available.'),
-            style: const TextStyle(
-              color: AppColors.muted,
+            style: TextStyle(
+              color: context.colors.muted,
               fontSize: 12,
               height: 1.5,
             ),
@@ -437,9 +447,13 @@ class _ProfileDetails extends StatelessWidget {
             spacing: 5,
             runSpacing: 5,
             children: profile.needs.isEmpty
-                ? const [_NeedPill('Needs not available')]
+                ? [_NeedPill('Needs not available')]
                 : profile.needs.map((need) => _NeedPill(need)).toList(),
           ),
+        ),
+        _ThemeToggleCard(
+          themeMode: themeMode,
+          onThemeModeChanged: onThemeModeChanged,
         ),
         AppCard(
           child: Row(
@@ -449,7 +463,7 @@ class _ProfileDetails extends StatelessWidget {
                 height: 38,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: AppColors.gold.withValues(alpha: .10),
+                  color: context.colors.gold.withValues(alpha: .10),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Text('🎍', style: TextStyle(fontSize: 18)),
@@ -463,8 +477,8 @@ class _ProfileDetails extends StatelessWidget {
                       profile.isAccredited
                           ? 'Accredited Member'
                           : 'Listed Member',
-                      style: const TextStyle(
-                        color: AppColors.text,
+                      style: TextStyle(
+                        color: context.colors.text,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                       ),
@@ -474,8 +488,8 @@ class _ProfileDetails extends StatelessWidget {
                       profile.isAccredited
                           ? 'Verified by FilAfrik'
                           : 'Contact FilAfrik for Accredited status',
-                      style: const TextStyle(
-                        color: AppColors.muted,
+                      style: TextStyle(
+                        color: context.colors.muted,
                         fontSize: 11,
                       ),
                     ),
@@ -493,8 +507,10 @@ class _ProfileDetails extends StatelessWidget {
               padding: const EdgeInsets.all(11),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(11),
-                border: Border.all(color: AppColors.red.withValues(alpha: .3)),
-                color: AppColors.red.withValues(alpha: .06),
+                border: Border.all(
+                  color: context.colors.red.withValues(alpha: .3),
+                ),
+                color: context.colors.red.withValues(alpha: .06),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -521,7 +537,9 @@ class _ProfileDetails extends StatelessWidget {
             padding: const EdgeInsets.all(11),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(11),
-              border: Border.all(color: AppColors.red.withValues(alpha: .25)),
+              border: Border.all(
+                color: context.colors.red.withValues(alpha: .25),
+              ),
             ),
             child: const Text(
               'Sign Out',
@@ -531,6 +549,107 @@ class _ProfileDetails extends StatelessWidget {
           ),
         ),
       ].separatedBy(const SizedBox(height: 10)),
+    );
+  }
+}
+
+class _ThemeToggleCard extends StatelessWidget {
+  const _ThemeToggleCard({
+    required this.themeMode,
+    required this.onThemeModeChanged,
+  });
+
+  final ThemeMode themeMode;
+  final Future<void> Function(ThemeMode) onThemeModeChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionLabel('Appearance'),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              _ThemeOption(
+                label: 'System',
+                icon: '📱',
+                selected: themeMode == ThemeMode.system,
+                onTap: () => onThemeModeChanged(ThemeMode.system),
+              ),
+              const SizedBox(width: 8),
+              _ThemeOption(
+                label: 'Light',
+                icon: '☀️',
+                selected: themeMode == ThemeMode.light,
+                onTap: () => onThemeModeChanged(ThemeMode.light),
+              ),
+              const SizedBox(width: 8),
+              _ThemeOption(
+                label: 'Dark',
+                icon: '🌙',
+                selected: themeMode == ThemeMode.dark,
+                onTap: () => onThemeModeChanged(ThemeMode.dark),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ThemeOption extends StatelessWidget {
+  const _ThemeOption({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final String icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: selected
+                ? context.colors.gold.withValues(alpha: .15)
+                : context.colors.surface,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: selected
+                  ? context.colors.gold
+                  : context.colors.gold.withValues(alpha: .18),
+              width: selected ? 1.5 : 1,
+            ),
+          ),
+          child: Column(
+            children: [
+              Text(icon, style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  color: selected ? context.colors.gold : context.colors.muted,
+                  fontSize: 11,
+                  fontWeight:
+                      selected ? FontWeight.w700 : FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -656,14 +775,14 @@ class _NeedPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.gold.withValues(alpha: .12),
+        color: context.colors.gold.withValues(alpha: .12),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.gold.withValues(alpha: .25)),
+        border: Border.all(color: context.colors.gold.withValues(alpha: .25)),
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          color: AppColors.gold,
+        style: TextStyle(
+          color: context.colors.gold,
           fontSize: 11,
           fontWeight: FontWeight.w500,
         ),

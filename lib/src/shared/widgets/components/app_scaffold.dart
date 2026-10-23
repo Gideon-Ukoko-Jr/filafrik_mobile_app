@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/app_color_scheme.dart';
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold({super.key, required this.child});
@@ -12,7 +12,7 @@ class AppScaffold extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: DecoratedBox(
-        decoration: const BoxDecoration(color: AppColors.background),
+        decoration: BoxDecoration(color: context.colors.background),
         child: Stack(
           children: [
             const Positioned(top: 0, left: 0, right: 0, child: TopStripe()),
@@ -31,14 +31,14 @@ class TopStripe extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 3,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.red,
-            AppColors.gold,
-            AppColors.lightGold,
-            AppColors.gold,
-            AppColors.red,
+            context.colors.red,
+            context.colors.gold,
+            context.colors.lightGold,
+            context.colors.gold,
+            context.colors.red,
           ],
         ),
       ),

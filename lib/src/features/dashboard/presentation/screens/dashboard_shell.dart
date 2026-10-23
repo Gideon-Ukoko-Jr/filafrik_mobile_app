@@ -30,6 +30,8 @@ class DashboardShell extends StatefulWidget {
     required this.onSaveProfile,
     required this.onSignOut,
     required this.onTabSelected,
+    required this.themeMode,
+    required this.onThemeModeChanged,
   });
 
   final FounderProfile? profile;
@@ -42,6 +44,8 @@ class DashboardShell extends StatefulWidget {
   final Future<void> Function(FounderProfile profile) onSaveProfile;
   final Future<void> Function() onSignOut;
   final ValueChanged<int> onTabSelected;
+  final ThemeMode themeMode;
+  final Future<void> Function(ThemeMode) onThemeModeChanged;
 
   @override
   State<DashboardShell> createState() => _DashboardShellState();
@@ -141,6 +145,8 @@ class _DashboardShellState extends State<DashboardShell> {
         onSaveProfile: widget.onSaveProfile,
         onSignOut: widget.onSignOut,
         onOpenAdminPanel: viewerIsAdmin ? _openAdminPanel : null,
+        themeMode: widget.themeMode,
+        onThemeModeChanged: widget.onThemeModeChanged,
       ),
     ];
 

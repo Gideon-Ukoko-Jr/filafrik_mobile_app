@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../../domain/models/dashboard_stats_data.dart';
@@ -29,9 +29,9 @@ class AppBottomNav extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 24),
       decoration: BoxDecoration(
-        color: const Color(0xFF0A0805),
+        color: context.colors.navBar,
         border: Border(
-          top: BorderSide(color: AppColors.gold.withValues(alpha: .14)),
+          top: BorderSide(color: context.colors.gold.withValues(alpha: .14)),
         ),
       ),
       child: Row(
@@ -49,7 +49,7 @@ class AppBottomNav extends StatelessWidget {
                   Text(
                     items[index].$1,
                     style: TextStyle(
-                      color: selected ? AppColors.gold : AppColors.dim,
+                      color: selected ? context.colors.gold : context.colors.dim,
                       fontSize: selected ? 23 : 20,
                     ),
                   ),
@@ -57,7 +57,7 @@ class AppBottomNav extends StatelessWidget {
                   Text(
                     items[index].$2,
                     style: TextStyle(
-                      color: selected ? AppColors.gold : AppColors.dim,
+                      color: selected ? context.colors.gold : context.colors.dim,
                       fontSize: 10,
                     ),
                   ),
@@ -66,7 +66,7 @@ class AppBottomNav extends StatelessWidget {
                     width: 14,
                     height: 2,
                     decoration: BoxDecoration(
-                      color: selected ? AppColors.gold : Colors.transparent,
+                      color: selected ? context.colors.gold : Colors.transparent,
                       borderRadius: BorderRadius.circular(1),
                     ),
                   ),
@@ -107,13 +107,13 @@ class MemberCard extends StatelessWidget {
         children: [
           Text(
             '$businessName · $stage',
-            style: const TextStyle(color: AppColors.muted, fontSize: 11),
+            style: TextStyle(color: context.colors.muted, fontSize: 11),
           ),
           const SizedBox(height: 3),
           Text(
             '$industry · $needs',
-            style: const TextStyle(
-              color: AppColors.text,
+            style: TextStyle(
+              color: context.colors.text,
               fontSize: 13,
               fontWeight: FontWeight.w600,
             ),
@@ -122,13 +122,13 @@ class MemberCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: AppColors.gold.withValues(alpha: .13),
-              border: Border.all(color: AppColors.gold.withValues(alpha: .30)),
+              color: context.colors.gold.withValues(alpha: .13),
+              border: Border.all(color: context.colors.gold.withValues(alpha: .30)),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               status,
-              style: const TextStyle(color: AppColors.gold, fontSize: 10),
+              style: TextStyle(color: context.colors.gold, fontSize: 10),
             ),
           ),
         ],
@@ -192,8 +192,8 @@ class _StatsGrid extends StatelessWidget {
                 children: [
                   Text(
                     stat.$1,
-                    style: const TextStyle(
-                      color: AppColors.gold,
+                    style: TextStyle(
+                      color: context.colors.gold,
                       fontSize: 25,
                       fontWeight: FontWeight.w800,
                       fontFamily: 'Playfair Display',
@@ -201,8 +201,8 @@ class _StatsGrid extends StatelessWidget {
                   ),
                   Text(
                     stat.$2,
-                    style: const TextStyle(
-                      color: AppColors.muted,
+                    style: TextStyle(
+                      color: context.colors.muted,
                       fontSize: 11,
                     ),
                     maxLines: 1,
@@ -248,8 +248,8 @@ class QuickAccessTile extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
-                        color: AppColors.text,
+                      style: TextStyle(
+                        color: context.colors.text,
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
@@ -257,15 +257,15 @@ class QuickAccessTile extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
-                      style: const TextStyle(
-                        color: AppColors.muted,
+                      style: TextStyle(
+                        color: context.colors.muted,
                         fontSize: 11,
                       ),
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: AppColors.gold),
+              Icon(Icons.chevron_right, color: context.colors.gold),
             ],
           ),
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../../domain/repositories/directory_repository.dart';
@@ -121,9 +121,9 @@ class DirectoryHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 37, 18, 12),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         border: Border(
-          bottom: BorderSide(color: AppColors.gold.withValues(alpha: .18)),
+          bottom: BorderSide(color: context.colors.gold.withValues(alpha: .18)),
         ),
       ),
       child: Column(
@@ -133,7 +133,7 @@ class DirectoryHeader extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             subtitle,
-            style: const TextStyle(color: AppColors.muted, fontSize: 11),
+            style: TextStyle(color: context.colors.muted, fontSize: 11),
           ),
         ],
       ),
@@ -162,9 +162,9 @@ class DirectorySearchFilters extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 10, 18, 12),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         border: Border(
-          bottom: BorderSide(color: AppColors.gold.withValues(alpha: .18)),
+          bottom: BorderSide(color: context.colors.gold.withValues(alpha: .18)),
         ),
       ),
       child: Column(
@@ -173,9 +173,9 @@ class DirectorySearchFilters extends StatelessWidget {
             height: 43,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.colors.surface,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.gold.withValues(alpha: .18)),
+              border: Border.all(color: context.colors.gold.withValues(alpha: .18)),
             ),
             child: Row(
               children: [
@@ -185,11 +185,11 @@ class DirectorySearchFilters extends StatelessWidget {
                   child: TextField(
                     controller: controller,
                     onChanged: onSearchChanged,
-                    cursorColor: AppColors.gold,
-                    style: const TextStyle(color: AppColors.text, fontSize: 13),
-                    decoration: const InputDecoration(
+                    cursorColor: context.colors.gold,
+                    style: TextStyle(color: context.colors.text, fontSize: 13),
+                    decoration: InputDecoration(
                       hintText: 'Search businesses...',
-                      hintStyle: TextStyle(color: AppColors.dim, fontSize: 13),
+                      hintStyle: TextStyle(color: context.colors.dim, fontSize: 13),
                       isDense: true,
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,
@@ -237,19 +237,19 @@ class DirectoryResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: AppColors.gold),
+      return Center(
+        child: CircularProgressIndicator(color: context.colors.gold),
       );
     }
 
     if (profiles.isEmpty) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           child: Text(
             'No matching businesses available.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.muted),
+            style: TextStyle(color: context.colors.muted),
           ),
         ),
       );

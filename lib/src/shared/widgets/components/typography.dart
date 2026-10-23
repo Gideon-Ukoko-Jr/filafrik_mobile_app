@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/app_color_scheme.dart';
 
 class AppTitle extends StatelessWidget {
   const AppTitle(this.text, {super.key, this.size = 24, this.textAlign});
@@ -15,7 +15,7 @@ class AppTitle extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: TextStyle(
-        color: AppColors.text,
+        color: context.colors.text,
         fontSize: size,
         height: 1.25,
         fontWeight: FontWeight.w700,
@@ -34,8 +34,8 @@ class FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: const TextStyle(
-        color: AppColors.muted,
+      style: TextStyle(
+        color: context.colors.muted,
         fontSize: 11,
         fontWeight: FontWeight.w600,
       ),
@@ -52,8 +52,8 @@ class SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        color: AppColors.dim,
+      style: TextStyle(
+        color: context.colors.dim,
         fontSize: 10,
         fontWeight: FontWeight.w800,
         letterSpacing: 1,
@@ -71,8 +71,8 @@ class AccentWord extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        color: AppColors.gold,
+      style: TextStyle(
+        color: context.colors.gold,
         fontSize: 11,
         fontWeight: FontWeight.w700,
       ),

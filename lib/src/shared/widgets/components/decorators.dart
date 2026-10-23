@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/app_color_scheme.dart';
 
 class Splitter extends StatelessWidget {
   const Splitter({super.key});
@@ -9,15 +9,15 @@ class Splitter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Divider(color: AppColors.gold.withValues(alpha: .25))),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+        Expanded(child: Divider(color: context.colors.gold.withValues(alpha: .25))),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             'or',
-            style: TextStyle(color: AppColors.dim, fontSize: 11),
+            style: TextStyle(color: context.colors.dim, fontSize: 11),
           ),
         ),
-        Expanded(child: Divider(color: AppColors.gold.withValues(alpha: .25))),
+        Expanded(child: Divider(color: context.colors.gold.withValues(alpha: .25))),
       ],
     );
   }
@@ -48,7 +48,7 @@ class Dot extends StatelessWidget {
       height: 4,
       margin: const EdgeInsets.symmetric(horizontal: 3),
       decoration: BoxDecoration(
-        color: active ? AppColors.gold : AppColors.gold.withValues(alpha: .3),
+        color: active ? context.colors.gold : context.colors.gold.withValues(alpha: .3),
         borderRadius: BorderRadius.circular(2),
       ),
     );
@@ -63,7 +63,7 @@ class DividerMark extends StatelessWidget {
     return Container(
       width: 44,
       height: 1,
-      color: AppColors.gold.withValues(alpha: .65),
+      color: context.colors.gold.withValues(alpha: .65),
     );
   }
 }

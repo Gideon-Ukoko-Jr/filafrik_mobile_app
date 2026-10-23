@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -45,24 +45,24 @@ class _SplashScreenState extends State<SplashScreen> {
         onTap: _finish,
         child: Stack(
           children: [
-            const Positioned(
+            Positioned(
               top: -72,
               right: -78,
               child: GlowCircle(
                 size: 250,
-                color: AppColors.lightGold,
+                color: context.colors.lightGold,
                 opacity: .07,
               ),
             ),
-            const Positioned(
+            Positioned(
               bottom: -62,
               left: -62,
-              child: GlowCircle(size: 210, color: AppColors.red, opacity: .10),
+              child: GlowCircle(size: 210, color: context.colors.red, opacity: .10),
             ),
-            const Positioned(
+            Positioned(
               top: 330,
               left: -28,
-              child: GlowCircle(size: 96, color: AppColors.gold, opacity: .14),
+              child: GlowCircle(size: 96, color: context.colors.gold, opacity: .14),
             ),
             Center(
               child: SizedBox(
@@ -73,12 +73,12 @@ class _SplashScreenState extends State<SplashScreen> {
                   children: [
                     Ring(
                       size: 272,
-                      color: AppColors.gold.withValues(alpha: .18),
+                      color: context.colors.gold.withValues(alpha: .18),
                       width: 1,
                     ),
                     Ring(
                       size: 252,
-                      color: AppColors.gold.withValues(alpha: .45),
+                      color: context.colors.gold.withValues(alpha: .45),
                       width: 1.5,
                     ),
                     Container(
@@ -86,45 +86,45 @@ class _SplashScreenState extends State<SplashScreen> {
                       height: 230,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.gold.withValues(alpha: .04),
+                        color: context.colors.gold.withValues(alpha: .04),
                         border: Border.all(
-                          color: AppColors.lightGold.withValues(alpha: .10),
+                          color: context.colors.lightGold.withValues(alpha: .10),
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'FILAFRIK',
                             style: TextStyle(
-                              color: AppColors.gold,
+                              color: context.colors.gold,
                               fontSize: 12,
                               letterSpacing: 2.4,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Text(
                             'THE AFRICAN EXPERIENCE',
                             style: TextStyle(
-                              color: AppColors.muted,
+                              color: context.colors.muted,
                               fontSize: 8.5,
                               letterSpacing: 1,
                             ),
                           ),
-                          SizedBox(height: 16),
-                          DividerMark(),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 16),
+                          const DividerMark(),
+                          const SizedBox(height: 5),
                           Text(
                             'FOUNDERS CIRCLE',
                             style: TextStyle(
-                              color: AppColors.muted,
+                              color: context.colors.muted,
                               fontSize: 10,
                               letterSpacing: 2.2,
                             ),
                           ),
-                          SizedBox(height: 5),
-                          DividerMark(),
+                          const SizedBox(height: 5),
+                          const DividerMark(),
                         ],
                       ),
                     ),
@@ -132,7 +132,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               left: 0,
               right: 0,
               bottom: 58,
@@ -142,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: AppColors.gold,
+                    color: context.colors.gold,
                   ),
                 ),
               ),

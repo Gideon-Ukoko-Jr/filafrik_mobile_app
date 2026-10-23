@@ -23,6 +23,8 @@ class AppFlow extends StatefulWidget {
     required this.communityRepository,
     required this.resourceRepository,
     required this.adminRepository,
+    required this.themeMode,
+    required this.onThemeModeChanged,
   });
 
   final AuthRepository authRepository;
@@ -31,6 +33,8 @@ class AppFlow extends StatefulWidget {
   final CommunityRepository communityRepository;
   final ResourceRepository resourceRepository;
   final AdminRepository adminRepository;
+  final ThemeMode themeMode;
+  final Future<void> Function(ThemeMode) onThemeModeChanged;
 
   @override
   State<AppFlow> createState() => _AppFlowState();
@@ -232,6 +236,8 @@ class _AppFlowState extends State<AppFlow> {
         onSaveProfile: _updateProfile,
         onSignOut: _signOut,
         onTabSelected: (index) => setState(() => _dashboardTab = index),
+        themeMode: widget.themeMode,
+        onThemeModeChanged: widget.onThemeModeChanged,
       ),
     };
   }

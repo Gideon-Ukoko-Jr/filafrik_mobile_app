@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -29,11 +29,11 @@ class OnboardingScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 14),
-              const Text(
+              Text(
                 "Connect, access AI-powered resources, and build your business in Canada's leading African founders community.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.muted,
+                  color: context.colors.muted,
                   height: 1.6,
                   fontSize: 14,
                 ),
@@ -55,15 +55,15 @@ class OnboardingScreen extends StatelessWidget {
               PrimaryButton(label: 'Get Started', onPressed: onGetStarted),
               TextButton(
                 onPressed: onSignIn,
-                child: const Text.rich(
+                child: Text.rich(
                   TextSpan(
                     text: 'Already a member? ',
-                    style: TextStyle(color: AppColors.muted),
+                    style: TextStyle(color: context.colors.muted),
                     children: [
                       TextSpan(
                         text: 'Sign In',
                         style: TextStyle(
-                          color: AppColors.gold,
+                          color: context.colors.gold,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -57,9 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const AppTitle('Welcome back'),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 'Sign in to the Founders Circle',
-                style: TextStyle(color: AppColors.muted, fontSize: 13),
+                style: TextStyle(color: context.colors.muted, fontSize: 13),
               ),
               const SizedBox(height: 28),
               AppTextField(
@@ -81,9 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {},
-                  child: const Text(
+                  child: Text(
                     'Forgot password?',
-                    style: TextStyle(color: AppColors.gold, fontSize: 12),
+                    style: TextStyle(color: context.colors.gold, fontSize: 12),
                   ),
                 ),
               ),
@@ -105,15 +105,15 @@ class _LoginScreenState extends State<LoginScreen> {
               const Spacer(),
               TextButton(
                 onPressed: widget.onJoin,
-                child: const Text.rich(
+                child: Text.rich(
                   TextSpan(
                     text: 'No account? ',
-                    style: TextStyle(color: AppColors.muted),
+                    style: TextStyle(color: context.colors.muted),
                     children: [
                       TextSpan(
                         text: 'Join the Circle',
                         style: TextStyle(
-                          color: AppColors.gold,
+                          color: context.colors.gold,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../domain/models/community_room.dart';
 
@@ -15,9 +15,9 @@ class CommunityHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 37, 18, 13),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         border: Border(
-          bottom: BorderSide(color: AppColors.gold.withValues(alpha: .18)),
+          bottom: BorderSide(color: context.colors.gold.withValues(alpha: .18)),
         ),
       ),
       child: Column(
@@ -28,7 +28,7 @@ class CommunityHeader extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               subtitle!,
-              style: const TextStyle(color: AppColors.muted, fontSize: 11),
+              style: TextStyle(color: context.colors.muted, fontSize: 11),
             ),
           ],
         ],
@@ -48,8 +48,8 @@ class CommunitySectionLabel extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       child: Text(
         label,
-        style: const TextStyle(
-          color: AppColors.dim,
+        style: TextStyle(
+          color: context.colors.dim,
           fontSize: 10,
           fontWeight: FontWeight.w700,
           letterSpacing: 1,
@@ -84,8 +84,8 @@ class CommunityRoomTile extends StatelessWidget {
                     room.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: AppColors.text,
+                    style: TextStyle(
+                      color: context.colors.text,
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                     ),
@@ -95,8 +95,8 @@ class CommunityRoomTile extends StatelessWidget {
                     room.subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: AppColors.muted,
+                    style: TextStyle(
+                      color: context.colors.muted,
                       fontSize: 11,
                     ),
                   ),
@@ -110,7 +110,7 @@ class CommunityRoomTile extends StatelessWidget {
             else
               Text(
                 room.lastActive,
-                style: const TextStyle(color: AppColors.dim, fontSize: 10),
+                style: TextStyle(color: context.colors.dim, fontSize: 10),
               ),
           ],
         ),
@@ -135,10 +135,10 @@ class RoomIcon extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: locked
-            ? AppColors.gold.withValues(alpha: .08)
-            : AppColors.surface,
+            ? context.colors.gold.withValues(alpha: .08)
+            : context.colors.surface,
         borderRadius: BorderRadius.circular(11),
-        border: Border.all(color: AppColors.gold.withValues(alpha: .18)),
+        border: Border.all(color: context.colors.gold.withValues(alpha: .18)),
       ),
       child: Text(emoji, style: const TextStyle(fontSize: 19)),
     );
@@ -177,8 +177,8 @@ class MessageBubble extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     'You · $time',
-                    style: const TextStyle(
-                      color: AppColors.dim,
+                    style: TextStyle(
+                      color: context.colors.dim,
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                     ),
@@ -191,7 +191,7 @@ class MessageBubble extends StatelessWidget {
                     vertical: 9,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.gold.withValues(alpha: .15),
+                    color: context.colors.gold.withValues(alpha: .15),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(13),
                       topRight: Radius.circular(13),
@@ -199,13 +199,13 @@ class MessageBubble extends StatelessWidget {
                       bottomRight: Radius.circular(3),
                     ),
                     border: Border.all(
-                      color: AppColors.gold.withValues(alpha: .22),
+                      color: context.colors.gold.withValues(alpha: .22),
                     ),
                   ),
                   child: Text(
                     message,
-                    style: const TextStyle(
-                      color: AppColors.text,
+                    style: TextStyle(
+                      color: context.colors.text,
                       fontSize: 12,
                       height: 1.5,
                     ),
@@ -232,8 +232,8 @@ class MessageBubble extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Text(
                   '$author · $time',
-                  style: const TextStyle(
-                    color: AppColors.muted,
+                  style: TextStyle(
+                    color: context.colors.muted,
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
                   ),
@@ -246,7 +246,7 @@ class MessageBubble extends StatelessWidget {
                   vertical: 9,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: context.colors.surface,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(13),
                     topRight: Radius.circular(13),
@@ -254,13 +254,13 @@ class MessageBubble extends StatelessWidget {
                     bottomRight: Radius.circular(13),
                   ),
                   border: Border.all(
-                    color: AppColors.gold.withValues(alpha: .18),
+                    color: context.colors.gold.withValues(alpha: .18),
                   ),
                 ),
                 child: Text(
                   message,
-                  style: const TextStyle(
-                    color: AppColors.text,
+                  style: TextStyle(
+                    color: context.colors.text,
                     fontSize: 12,
                     height: 1.5,
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/app_color_scheme.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
@@ -17,8 +17,8 @@ class PrimaryButton extends StatelessWidget {
     return FilledButton(
       onPressed: onPressed,
       style: FilledButton.styleFrom(
-        backgroundColor: AppColors.gold,
-        foregroundColor: AppColors.background,
+        backgroundColor: context.colors.gold,
+        foregroundColor: context.colors.background,
         minimumSize: const Size.fromHeight(50),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
@@ -43,10 +43,10 @@ class SecondaryButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.muted,
+        foregroundColor: context.colors.muted,
         minimumSize: const Size.fromHeight(48),
         side: BorderSide(
-          color: AppColors.gold.withValues(alpha: .35),
+          color: context.colors.gold.withValues(alpha: .35),
           width: 1.4,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),

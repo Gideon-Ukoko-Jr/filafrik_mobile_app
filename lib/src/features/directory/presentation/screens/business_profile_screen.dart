@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../../core/website_url.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
@@ -88,8 +88,8 @@ class _BusinessProfileScreenState extends State<BusinessProfileScreen> {
                     widget.profile.bio,
                     'Business description not available.',
                   ),
-                  style: const TextStyle(
-                    color: AppColors.muted,
+                  style: TextStyle(
+                    color: context.colors.muted,
                     fontSize: 13,
                     height: 1.7,
                   ),
@@ -233,15 +233,15 @@ class _AdminAccreditationButton extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: AppColors.red.withValues(alpha: .08),
+            color: context.colors.red.withValues(alpha: .08),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             ),
             border: Border(
-              top: BorderSide(color: AppColors.red.withValues(alpha: .2)),
-              left: BorderSide(color: AppColors.red.withValues(alpha: .2)),
-              right: BorderSide(color: AppColors.red.withValues(alpha: .2)),
+              top: BorderSide(color: context.colors.red.withValues(alpha: .2)),
+              left: BorderSide(color: context.colors.red.withValues(alpha: .2)),
+              right: BorderSide(color: context.colors.red.withValues(alpha: .2)),
             ),
           ),
           child: const Text(
@@ -261,8 +261,8 @@ class _AdminAccreditationButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 13),
             decoration: BoxDecoration(
               color: isAccredited
-                  ? AppColors.red.withValues(alpha: .08)
-                  : AppColors.gold.withValues(alpha: .10),
+                  ? context.colors.red.withValues(alpha: .08)
+                  : context.colors.gold.withValues(alpha: .10),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(12),
                 bottomRight: Radius.circular(12),
@@ -270,28 +270,28 @@ class _AdminAccreditationButton extends StatelessWidget {
               border: Border(
                 bottom: BorderSide(
                   color: isAccredited
-                      ? AppColors.red.withValues(alpha: .2)
-                      : AppColors.gold.withValues(alpha: .3),
+                      ? context.colors.red.withValues(alpha: .2)
+                      : context.colors.gold.withValues(alpha: .3),
                 ),
                 left: BorderSide(
                   color: isAccredited
-                      ? AppColors.red.withValues(alpha: .2)
-                      : AppColors.gold.withValues(alpha: .3),
+                      ? context.colors.red.withValues(alpha: .2)
+                      : context.colors.gold.withValues(alpha: .3),
                 ),
                 right: BorderSide(
                   color: isAccredited
-                      ? AppColors.red.withValues(alpha: .2)
-                      : AppColors.gold.withValues(alpha: .3),
+                      ? context.colors.red.withValues(alpha: .2)
+                      : context.colors.gold.withValues(alpha: .3),
                 ),
               ),
             ),
             child: isLoading
-                ? const Center(
+                ? Center(
                     child: SizedBox(
                       width: 18,
                       height: 18,
                       child: CircularProgressIndicator(
-                        color: AppColors.gold,
+                        color: context.colors.gold,
                         strokeWidth: 1.5,
                       ),
                     ),
@@ -304,7 +304,7 @@ class _AdminAccreditationButton extends StatelessWidget {
                     style: TextStyle(
                       color: isAccredited
                           ? const Color(0xFFB05050)
-                          : AppColors.gold,
+                          : context.colors.gold,
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                     ),
@@ -335,9 +335,9 @@ class BusinessProfileHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 37, 18, 14),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         border: Border(
-          bottom: BorderSide(color: AppColors.gold.withValues(alpha: .18)),
+          bottom: BorderSide(color: context.colors.gold.withValues(alpha: .18)),
         ),
       ),
       child: Column(
@@ -345,17 +345,17 @@ class BusinessProfileHeader extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: onBack,
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   '←',
-                  style: TextStyle(color: AppColors.muted, fontSize: 18),
+                  style: TextStyle(color: context.colors.muted, fontSize: 18),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
                   'Directory',
-                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                  style: TextStyle(color: context.colors.muted, fontSize: 13),
                 ),
               ],
             ),
@@ -376,8 +376,8 @@ class BusinessProfileHeader extends StatelessWidget {
                       'by $founderName · Established not available',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: AppColors.muted,
+                      style: TextStyle(
+                        color: context.colors.muted,
                         fontSize: 11,
                       ),
                     ),
@@ -447,11 +447,11 @@ class ProfileActionButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: outlined ? 13 : 14),
           decoration: BoxDecoration(
-            color: outlined ? Colors.transparent : AppColors.gold,
+            color: outlined ? Colors.transparent : context.colors.gold,
             borderRadius: BorderRadius.circular(14),
             border: outlined
                 ? Border.all(
-                    color: AppColors.gold.withValues(alpha: .35),
+                    color: context.colors.gold.withValues(alpha: .35),
                     width: 1.5,
                   )
                 : null,
@@ -460,7 +460,7 @@ class ProfileActionButton extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: outlined ? AppColors.muted : AppColors.background,
+              color: outlined ? context.colors.muted : context.colors.background,
               fontSize: outlined ? 13 : 14,
               fontWeight: FontWeight.w600,
             ),

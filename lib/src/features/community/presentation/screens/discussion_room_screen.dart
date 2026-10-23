@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_colors.dart';
+import '../../../../core/app_color_scheme.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../../domain/models/community_message.dart';
 import '../../domain/models/community_room.dart';
@@ -72,20 +72,20 @@ class _DiscussionRoomScreenState extends State<DiscussionRoomScreen> {
               stream: widget.communityRepository.watchRoomMessages(widget.room),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: AppColors.gold),
+                  return Center(
+                    child: CircularProgressIndicator(color: context.colors.gold),
                   );
                 }
 
                 final messages = snapshot.data ?? const <CommunityMessage>[];
                 if (messages.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Padding(
-                      padding: EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(24),
                       child: Text(
                         'No posts yet. Start the conversation.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.muted, fontSize: 12),
+                        style: TextStyle(color: context.colors.muted, fontSize: 12),
                       ),
                     ),
                   );
@@ -192,18 +192,18 @@ class DiscussionRoomHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 37, 16, 10),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         border: Border(
-          bottom: BorderSide(color: AppColors.gold.withValues(alpha: .18)),
+          bottom: BorderSide(color: context.colors.gold.withValues(alpha: .18)),
         ),
       ),
       child: Row(
         children: [
           GestureDetector(
             onTap: onBack,
-            child: const Text(
+            child: Text(
               '←',
-              style: TextStyle(color: AppColors.muted, fontSize: 18),
+              style: TextStyle(color: context.colors.muted, fontSize: 18),
             ),
           ),
           const SizedBox(width: 10),
@@ -215,16 +215,16 @@ class DiscussionRoomHeader extends StatelessWidget {
               children: [
                 Text(
                   room.title,
-                  style: const TextStyle(
-                    color: AppColors.text,
+                  style: TextStyle(
+                    color: context.colors.text,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 1),
-                const Text(
+                Text(
                   'Live room',
-                  style: TextStyle(color: AppColors.muted, fontSize: 10),
+                  style: TextStyle(color: context.colors.muted, fontSize: 10),
                 ),
               ],
             ),
@@ -244,23 +244,23 @@ class DayChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Divider(color: AppColors.gold.withValues(alpha: .14))),
+        Expanded(child: Divider(color: context.colors.gold.withValues(alpha: .14))),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.colors.surface,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.gold.withValues(alpha: .18)),
+              border: Border.all(color: context.colors.gold.withValues(alpha: .18)),
             ),
             child: Text(
               label,
-              style: const TextStyle(color: AppColors.dim, fontSize: 10),
+              style: TextStyle(color: context.colors.dim, fontSize: 10),
             ),
           ),
         ),
-        Expanded(child: Divider(color: AppColors.gold.withValues(alpha: .14))),
+        Expanded(child: Divider(color: context.colors.gold.withValues(alpha: .14))),
       ],
     );
   }
@@ -287,9 +287,9 @@ class DiscussionComposer extends StatelessWidget {
       margin: EdgeInsets.only(bottom: math.max(82.0, keyboardHeight)),
       padding: const EdgeInsets.fromLTRB(13, 9, 13, 9),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         border: Border(
-          top: BorderSide(color: AppColors.gold.withValues(alpha: .14)),
+          top: BorderSide(color: context.colors.gold.withValues(alpha: .14)),
         ),
       ),
       child: Row(
@@ -306,17 +306,17 @@ class DiscussionComposer extends StatelessWidget {
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => onSend(),
-                cursorColor: AppColors.gold,
-                style: const TextStyle(color: AppColors.text, fontSize: 12),
+                cursorColor: context.colors.gold,
+                style: TextStyle(color: context.colors.text, fontSize: 12),
                 decoration: InputDecoration(
                   hintText: 'Write a post or question...',
-                  hintStyle: const TextStyle(
-                    color: AppColors.dim,
+                  hintStyle: TextStyle(
+                    color: context.colors.dim,
                     fontSize: 12,
                   ),
                   isDense: true,
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: context.colors.surface,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 13,
                     vertical: 9,
@@ -324,17 +324,17 @@ class DiscussionComposer extends StatelessWidget {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(
-                      color: AppColors.gold.withValues(alpha: .18),
+                      color: context.colors.gold.withValues(alpha: .18),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: AppColors.gold),
+                    borderSide: BorderSide(color: context.colors.gold),
                   ),
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(
-                      color: AppColors.gold.withValues(alpha: .12),
+                      color: context.colors.gold.withValues(alpha: .12),
                     ),
                   ),
                 ),
@@ -350,13 +350,13 @@ class DiscussionComposer extends StatelessWidget {
                 width: 34,
                 height: 34,
                 alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: AppColors.gold,
+                decoration: BoxDecoration(
+                  color: context.colors.gold,
                   shape: BoxShape.circle,
                 ),
-                child: const Text(
+                child: Text(
                   '⇧',
-                  style: TextStyle(color: AppColors.background, fontSize: 15),
+                  style: TextStyle(color: context.colors.background, fontSize: 15),
                 ),
               ),
             ),
