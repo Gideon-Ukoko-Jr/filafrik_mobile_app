@@ -562,8 +562,18 @@ class _ThemeToggleCard extends StatelessWidget {
   final ThemeMode themeMode;
   final Future<void> Function(ThemeMode) onThemeModeChanged;
 
+  bool get _isDark => themeMode == ThemeMode.dark ||
+      (themeMode == ThemeMode.system &&
+          WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+              Brightness.dark);
+
+  void _toggle() {
+    onThemeModeChanged(_isDark ? ThemeMode.light : ThemeMode.dark);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final usingSystem = themeMode == ThemeMode.system;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -572,83 +582,65 @@ class _ThemeToggleCard extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: [
-              _ThemeOption(
-                label: 'System',
-                icon: '📱',
-                selected: themeMode == ThemeMode.system,
-                onTap: () => onThemeModeChanged(ThemeMode.system),
-              ),
-              const SizedBox(width: 8),
-              _ThemeOption(
-                label: 'Light',
-                icon: '☀️',
-                selected: themeMode == ThemeMode.light,
-                onTap: () => onThemeModeChanged(ThemeMode.light),
-              ),
-              const SizedBox(width: 8),
-              _ThemeOption(
-                label: 'Dark',
-                icon: '🌙',
-                selected: themeMode == ThemeMode.dark,
-                onTap: () => onThemeModeChanged(ThemeMode.dark),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ThemeOption extends StatelessWidget {
-  const _ThemeOption({
-    required this.label,
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final String icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: selected
-                ? context.colors.gold.withValues(alpha: .15)
-                : context.colors.surface,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: selected
-                  ? context.colors.gold
-                  : context.colors.gold.withValues(alpha: .18),
-              width: selected ? 1.5 : 1,
-            ),
-          ),
-          child: Column(
-            children: [
-              Text(icon, style: const TextStyle(fontSize: 16)),
-              const SizedBox(height: 4),
               Text(
-                label,
-                style: TextStyle(
-                  color: selected ? context.colors.gold : context.colors.muted,
-                  fontSize: 11,
-                  fontWeight:
-                      selected ? FontWeight.w700 : FontWeight.w500,
+                _isDark ? '🌙' : '☀️',
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Dark Mode',
+                      style: TextStyle(
+                        color: context.colors.text,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    if (usingSystem)
+                      Text(
+                        'Following system setting',
+                        style: TextStyle(
+                          color: context.colors.muted,
+                          fontSize: 10,
+                        ),
+                      ),
+                  ],
                 ),
               ),
+              Switch(
+                value: _isDark,
+                onChanged: (_) => _toggle(),
+                activeThumbColor: context.colors.background,
+                activeTrackColor: context.colors.gold,
+                inactiveThumbColor: context.colors.dim,
+                inactiveTrackColor: context.colors.gold.withValues(alpha: .18),
+              ),
             ],
           ),
-        ),
+          const SizedBox(height: 6),
+          GestureDetector(
+            onTap: () => onThemeModeChanged(ThemeMode.system),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  usingSystem ? '✓ Using system default' : 'Use system default',
+                  style: TextStyle(
+                    color: usingSystem
+                        ? context.colors.gold
+                        : context.colors.muted,
+                    fontSize: 10,
+                    fontWeight:
+                        usingSystem ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
