@@ -67,7 +67,6 @@ class _BusinessProfileScreenState extends State<BusinessProfileScreen> {
       'Business not available',
     );
     final website = normalizedWebsiteUrl(widget.profile.website);
-    final contactEmail = _normalizedEmail(widget.profile.email);
 
     return SafeArea(
       child: Column(
@@ -134,16 +133,6 @@ class _BusinessProfileScreenState extends State<BusinessProfileScreen> {
                 BusinessNeedsRow(needs: widget.profile.needs),
                 const SizedBox(height: 14),
                 ProfileActionButton(
-                  label: contactEmail == null
-                      ? 'Contact not available'
-                      : 'Connect with $founderName',
-                  disabled: contactEmail == null,
-                  onTap: contactEmail == null
-                      ? null
-                      : () => _openEmailApp(context, contactEmail),
-                ),
-                const SizedBox(height: 8),
-                ProfileActionButton(
                   label: website == null
                       ? 'Website not available'
                       : 'Visit Website',
@@ -177,40 +166,6 @@ class _BusinessProfileScreenState extends State<BusinessProfileScreen> {
 
   Future<void> _openWebsite(Uri website) async {
     await launchUrl(website, mode: LaunchMode.externalApplication);
-  }
-
-  String? _normalizedEmail(String value) {
-    final trimmed = value.trim().toLowerCase();
-    if (trimmed.isEmpty || !trimmed.contains('@')) {
-      return null;
-    }
-    return trimmed;
-  }
-
-  Future<void> _openEmailApp(BuildContext context, String email) async {
-    final uri = Uri(
-      scheme: 'mailto',
-      path: email,
-      queryParameters: const {'subject': 'FilAfrik Founders Circle connection'},
-    );
-    final messenger = ScaffoldMessenger.of(context);
-
-    final canLaunch = await canLaunchUrl(uri);
-    if (!canLaunch) {
-      messenger.showSnackBar(
-        const SnackBar(
-          content: Text('No email app is available on this device.'),
-        ),
-      );
-      return;
-    }
-
-    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (!launched) {
-      messenger.showSnackBar(
-        const SnackBar(content: Text('Email app could not be opened.')),
-      );
-    }
   }
 }
 

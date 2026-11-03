@@ -18,40 +18,38 @@ class CommunityRoom {
 
 const defaultCommunityRooms = [
   CommunityRoom(
-    id: 'general',
-    emoji: '💬',
-    title: 'General',
-    subtitle: 'Open to all members',
-    lastActive: '2 min ago',
+    id: 'general_introductions',
+    emoji: '👋',
+    title: 'General Introductions',
+    subtitle: 'Introduce yourself & connect',
+    lastActive: '',
   ),
   CommunityRoom(
-    id: 'tech_innovation',
-    emoji: '💻',
-    title: 'Tech & Innovation',
-    subtitle: 'Founders in tech',
-    lastActive: '15 min ago',
-  ),
-  CommunityRoom(
-    id: 'food_hospitality',
-    emoji: '🍽',
-    title: 'Food & Hospitality',
-    subtitle: 'Restaurant & catering',
-    lastActive: '1 hr ago',
-  ),
-  CommunityRoom(
-    id: 'finance_funding',
+    id: 'capital_funding',
     emoji: '📊',
-    title: 'Finance & Funding',
-    subtitle: 'Capital & legal',
-    lastActive: 'Yesterday',
+    title: 'Capital & Funding',
+    subtitle: 'Grants, funding & investors',
+    lastActive: '',
+  ),
+  CommunityRoom(
+    id: 'marketing_digital_growth',
+    emoji: '📣',
+    title: 'Marketing & Digital Growth',
+    subtitle: 'Brand, social & growth strategy',
+    lastActive: '',
+  ),
+  CommunityRoom(
+    id: 'ops_systems_professionalism',
+    emoji: '🛠',
+    title: 'Ops & Systems',
+    subtitle: 'Operations, tools & professionalism',
+    lastActive: '',
+  ),
+  CommunityRoom(
+    id: 'scaling_hiring',
+    emoji: '🚀',
+    title: 'Scaling & Hiring',
+    subtitle: 'Growth, team & hiring',
+    lastActive: '',
   ),
 ];
-
-const accreditedLoungeRoom = CommunityRoom(
-  id: 'accredited_lounge',
-  emoji: '👑',
-  title: 'Accredited Lounge',
-  subtitle: 'FilAfrik Accredited only',
-  lastActive: '',
-  exclusive: true,
-);

@@ -13,12 +13,14 @@ class HomeDashboard extends StatelessWidget {
     required this.dashboardRepository,
     required this.onDirectorySelected,
     required this.onCommunitySelected,
+    required this.onAIResourcesSelected,
   });
 
   final FounderProfile? profile;
   final DashboardRepository dashboardRepository;
   final VoidCallback onDirectorySelected;
   final VoidCallback onCommunitySelected;
+  final VoidCallback onAIResourcesSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +63,11 @@ class HomeDashboard extends StatelessWidget {
             subtitle: 'Find & connect',
             onTap: onDirectorySelected,
           ),
-          const QuickAccessTile(
+          QuickAccessTile(
             emoji: '✨',
             title: 'AI Resources',
             subtitle: 'Tailored grants & tools',
+            onTap: onAIResourcesSelected,
           ),
           QuickAccessTile(
             emoji: '💬',

@@ -26,7 +26,7 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow get: if isOwner(userId) || isAdmin();
-      allow list: if signedIn();
+      allow list: if isAdmin();
       allow create: if isOwner(userId)
         && request.resource.data.uid == userId
         && request.resource.data.email is string
@@ -50,7 +50,10 @@ service cloud.firestore {
     }
 
     match /businesses/{businessId} {
-      allow read: if signedIn() && resource.data.isListed == true;
+      allow read: if signedIn()
+        && (resource.data.isListed == true
+          || request.auth.uid == resource.data.ownerId
+          || isAdmin());
       allow create: if signedIn()
         && request.resource.data.ownerId == request.auth.uid
         && request.resource.data.isListed == false
@@ -82,7 +85,10 @@ service cloud.firestore {
         && request.resource.data.authorId == request.auth.uid
         && request.resource.data.content is string
         && request.resource.data.content.size() > 0
-        && request.resource.data.content.size() <= 1000;
+        && request.resource.data.content.size() <= 1000
+        && request.resource.data.isAnnouncement == false
+        && request.resource.data.roomId is string
+        && request.resource.data.roomId.size() > 0;
       allow update: if signedIn()
         && request.auth.uid == resource.data.authorId
         && !resource.data.isAnnouncement

@@ -457,6 +457,14 @@ class FakeAuthRepository implements AuthRepository {
   Future<void> signOut() async {
     createdProfile = null;
   }
+
+  @override
+  Future<void> sendPasswordReset(String email) async {}
+
+  @override
+  Future<void> deleteAccount() async {
+    createdProfile = null;
+  }
 }
 
 class FakeDashboardRepository implements DashboardRepository {

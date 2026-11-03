@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_color_scheme.dart';
+import '../../../../core/app_constants.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 import '../../domain/models/dashboard_stats_data.dart';
@@ -96,9 +97,9 @@ class MemberCard extends StatelessWidget {
     final needs = profile?.needs.isNotEmpty == true
         ? profile!.needs.take(2).join(' · ')
         : 'Complete your profile';
-    final status = profile?.isAccredited == true
+    final status = kAccreditationEnabled && profile?.isAccredited == true
         ? 'Accredited Member'
-        : 'Listed Member';
+        : 'Member';
 
     return AppCard(
       accent: true,

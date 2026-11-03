@@ -16,21 +16,16 @@ class FirebaseCommunityRepository implements CommunityRepository {
 
   @override
   Stream<List<CommunityMessage>> watchRoomMessages(CommunityRoom room) {
-    return _posts.where('roomId', isEqualTo: room.id).snapshots().map((
-      snapshot,
-    ) {
-      final messages = snapshot.docs
+    return _posts
+        .where('roomId', isEqualTo: room.id)
+        .orderBy('createdAt')
+        .limitToLast(50)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
           .map(CommunityMessage.fromFirestore)
           .where((message) => message.content.trim().isNotEmpty)
           .toList();
-      messages.sort((first, second) {
-        final firstTime =
-            first.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-        final secondTime =
-            second.createdAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-        return firstTime.compareTo(secondTime);
-      });
-      return messages;
     });
   }
 

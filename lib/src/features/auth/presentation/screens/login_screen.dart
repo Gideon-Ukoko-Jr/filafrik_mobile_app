@@ -8,12 +8,14 @@ class LoginScreen extends StatefulWidget {
     super.key,
     required this.onJoin,
     required this.onSignedIn,
+    this.onForgotPassword,
     this.isLoading = false,
     this.errorText,
   });
 
   final VoidCallback onJoin;
   final Future<void> Function(String email, String password) onSignedIn;
+  final Future<void> Function(String email)? onForgotPassword;
   final bool isLoading;
   final String? errorText;
 
@@ -44,6 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _localErrorText = null);
     await widget.onSignedIn(email, password);
+  }
+
+  void _showForgotPasswordDialog(BuildContext context) {
+    final reset = widget.onForgotPassword;
+    if (reset == null) return;
+    final controller = TextEditingController(text: _emailController.text.trim());
+    showDialog<void>(
+      context: context,
+      builder: (_) => _ForgotPasswordDialog(emailController: controller, onSend: reset),
+    ).then((_) => controller.dispose());
   }
 
   @override
@@ -80,7 +92,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: widget.onForgotPassword != null
+                      ? () => _showForgotPasswordDialog(context)
+                      : null,
                   child: Text(
                     'Forgot password?',
                     style: TextStyle(color: context.colors.gold, fontSize: 12),
@@ -93,15 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 label: widget.isLoading ? 'Signing in...' : 'Sign In',
                 onPressed: widget.isLoading ? () {} : _signIn,
               ),
-              const SizedBox(height: 18),
-              const Splitter(),
-              const SizedBox(height: 14),
-              SecondaryButton(
-                label: '🔒  Sign in with Biometrics',
-                onPressed: () {},
-              ),
-              const SizedBox(height: 10),
-              SecondaryButton(label: 'Continue with Google', onPressed: () {}),
               const Spacer(),
               TextButton(
                 onPressed: widget.onJoin,
@@ -125,6 +130,89 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ForgotPasswordDialog extends StatefulWidget {
+  const _ForgotPasswordDialog({
+    required this.emailController,
+    required this.onSend,
+  });
+
+  final TextEditingController emailController;
+  final Future<void> Function(String email) onSend;
+
+  @override
+  State<_ForgotPasswordDialog> createState() => _ForgotPasswordDialogState();
+}
+
+class _ForgotPasswordDialogState extends State<_ForgotPasswordDialog> {
+  var _isSending = false;
+  String? _message;
+
+  Future<void> _send() async {
+    final email = widget.emailController.text.trim().toLowerCase();
+    if (!email.contains('@')) {
+      setState(() => _message = 'Enter a valid email address.');
+      return;
+    }
+    setState(() {
+      _isSending = true;
+      _message = null;
+    });
+    try {
+      await widget.onSend(email);
+      if (mounted) Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _isSending = false;
+          _message = 'Could not send reset email. Try again.';
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Reset Password'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            'Enter your email address to receive a password reset link.',
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: widget.emailController,
+            keyboardType: TextInputType.emailAddress,
+            autofocus: true,
+            decoration: const InputDecoration(
+              labelText: 'Email',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          if (_message != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              _message!,
+              style: const TextStyle(color: Colors.red, fontSize: 12),
+            ),
+          ],
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: _isSending ? null : () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: _isSending ? null : _send,
+          child: Text(_isSending ? 'Sending...' : 'Send Reset Link'),
+        ),
+      ],
     );
   }
 }

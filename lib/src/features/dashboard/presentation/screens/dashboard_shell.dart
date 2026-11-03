@@ -29,6 +29,7 @@ class DashboardShell extends StatefulWidget {
     required this.selectedIndex,
     required this.onSaveProfile,
     required this.onSignOut,
+    required this.onDeleteAccount,
     required this.onTabSelected,
     required this.themeMode,
     required this.onThemeModeChanged,
@@ -43,6 +44,7 @@ class DashboardShell extends StatefulWidget {
   final int selectedIndex;
   final Future<void> Function(FounderProfile profile) onSaveProfile;
   final Future<void> Function() onSignOut;
+  final Future<void> Function() onDeleteAccount;
   final ValueChanged<int> onTabSelected;
   final ThemeMode themeMode;
   final Future<void> Function(ThemeMode) onThemeModeChanged;
@@ -96,6 +98,7 @@ class _DashboardShellState extends State<DashboardShell> {
         dashboardRepository: widget.dashboardRepository,
         onDirectorySelected: () => _selectTab(1),
         onCommunitySelected: () => _selectTab(3),
+        onAIResourcesSelected: () => _selectTab(2),
       ),
       directoryProfile == null
           ? DirectoryScreen(
@@ -144,6 +147,7 @@ class _DashboardShellState extends State<DashboardShell> {
         profile: widget.profile,
         onSaveProfile: widget.onSaveProfile,
         onSignOut: widget.onSignOut,
+        onDeleteAccount: widget.onDeleteAccount,
         onOpenAdminPanel: viewerIsAdmin ? _openAdminPanel : null,
         themeMode: widget.themeMode,
         onThemeModeChanged: widget.onThemeModeChanged,

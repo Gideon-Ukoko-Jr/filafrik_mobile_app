@@ -151,6 +151,20 @@ class _AppFlowState extends State<AppFlow> {
     });
   }
 
+  Future<void> _sendPasswordReset(String email) =>
+      widget.authRepository.sendPasswordReset(email);
+
+  Future<void> _deleteAccount() async {
+    await widget.authRepository.deleteAccount();
+    if (!mounted) return;
+    setState(() {
+      _currentProfile = null;
+      _dashboardTab = 0;
+      _screen = AppScreen.onboarding;
+      _authError = null;
+    });
+  }
+
   String _friendlyAuthError(Object error) {
     if (error is AuthFailure) {
       return error.message;
@@ -200,6 +214,7 @@ class _AppFlowState extends State<AppFlow> {
       AppScreen.login => LoginScreen(
         onJoin: () => _go(AppScreen.registerAccount),
         onSignedIn: _signIn,
+        onForgotPassword: _sendPasswordReset,
         isLoading: _isAuthLoading,
         errorText: _authError,
       ),
@@ -235,6 +250,7 @@ class _AppFlowState extends State<AppFlow> {
         selectedIndex: _dashboardTab,
         onSaveProfile: _updateProfile,
         onSignOut: _signOut,
+        onDeleteAccount: _deleteAccount,
         onTabSelected: (index) => setState(() => _dashboardTab = index),
         themeMode: widget.themeMode,
         onThemeModeChanged: widget.onThemeModeChanged,

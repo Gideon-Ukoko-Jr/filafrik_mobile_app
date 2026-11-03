@@ -30,7 +30,7 @@ class OnboardingScreen extends StatelessWidget {
               ),
               const SizedBox(height: 14),
               Text(
-                "Connect, access AI-powered resources, and build your business in Canada's leading African founders community.",
+                'Connect, access AI-powered resources, and grow your business — a home for African and Black diaspora founders in Canada.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: context.colors.muted,

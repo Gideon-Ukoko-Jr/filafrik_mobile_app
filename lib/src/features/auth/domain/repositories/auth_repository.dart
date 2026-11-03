@@ -19,4 +19,8 @@ abstract class AuthRepository {
   Future<FounderProfile> updateProfile(FounderProfile profile);
 
   Future<void> signOut();
+
+  Future<void> sendPasswordReset(String email);
+
+  Future<void> deleteAccount();
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_color_scheme.dart';
+import '../../../../core/app_constants.dart';
 import '../../../../core/website_url.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
@@ -11,6 +12,7 @@ class MyProfileScreen extends StatefulWidget {
     required this.profile,
     required this.onSaveProfile,
     required this.onSignOut,
+    required this.onDeleteAccount,
     this.onOpenAdminPanel,
     required this.themeMode,
     required this.onThemeModeChanged,
@@ -19,6 +21,7 @@ class MyProfileScreen extends StatefulWidget {
   final FounderProfile? profile;
   final Future<void> Function(FounderProfile profile) onSaveProfile;
   final Future<void> Function() onSignOut;
+  final Future<void> Function() onDeleteAccount;
   final VoidCallback? onOpenAdminPanel;
   final ThemeMode themeMode;
   final Future<void> Function(ThemeMode) onThemeModeChanged;
@@ -228,6 +231,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 : _ProfileDetails(
                     profile: profile,
                     onSignOut: _signOut,
+                    onDeleteAccount: widget.onDeleteAccount,
                     onOpenAdminPanel: widget.onOpenAdminPanel,
                     themeMode: widget.themeMode,
                     onThemeModeChanged: widget.onThemeModeChanged,
@@ -403,6 +407,7 @@ class _ProfileDetails extends StatelessWidget {
   const _ProfileDetails({
     required this.profile,
     required this.onSignOut,
+    required this.onDeleteAccount,
     this.onOpenAdminPanel,
     required this.themeMode,
     required this.onThemeModeChanged,
@@ -410,6 +415,7 @@ class _ProfileDetails extends StatelessWidget {
 
   final FounderProfile profile;
   final VoidCallback onSignOut;
+  final Future<void> Function() onDeleteAccount;
   final VoidCallback? onOpenAdminPanel;
   final ThemeMode themeMode;
   final Future<void> Function(ThemeMode) onThemeModeChanged;
@@ -474,9 +480,9 @@ class _ProfileDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      profile.isAccredited
+                      kAccreditationEnabled && profile.isAccredited
                           ? 'Accredited Member'
-                          : 'Listed Member',
+                          : 'Founders Circle Member',
                       style: TextStyle(
                         color: context.colors.text,
                         fontSize: 13,
@@ -485,9 +491,9 @@ class _ProfileDetails extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      profile.isAccredited
+                      kAccreditationEnabled && profile.isAccredited
                           ? 'Verified by FilAfrik'
-                          : 'Contact FilAfrik for Accredited status',
+                          : 'Active member in good standing',
                       style: TextStyle(
                         color: context.colors.muted,
                         fontSize: 11,
@@ -548,6 +554,7 @@ class _ProfileDetails extends StatelessWidget {
             ),
           ),
         ),
+        _DeleteAccountButton(onDeleteAccount: onDeleteAccount),
       ].separatedBy(const SizedBox(height: 10)),
     );
   }
@@ -641,6 +648,85 @@ class _ThemeToggleCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _DeleteAccountButton extends StatefulWidget {
+  const _DeleteAccountButton({required this.onDeleteAccount});
+
+  final Future<void> Function() onDeleteAccount;
+
+  @override
+  State<_DeleteAccountButton> createState() => _DeleteAccountButtonState();
+}
+
+class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
+  var _isDeleting = false;
+
+  Future<void> _confirm(BuildContext context) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Account'),
+        content: const Text(
+          'This will permanently delete your account and all associated data. This cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text(
+              'Delete Account',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => _isDeleting = true);
+    try {
+      await widget.onDeleteAccount();
+    } catch (_) {
+      if (mounted) {
+        setState(() => _isDeleting = false);
+        messenger.showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Could not delete account. Sign out and sign in again, then try once more.',
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _isDeleting ? null : () => _confirm(context),
+      child: Opacity(
+        opacity: _isDeleting ? .5 : 1,
+        child: Container(
+          padding: const EdgeInsets.all(11),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(11),
+            border: Border.all(
+              color: context.colors.red.withValues(alpha: .15),
+            ),
+          ),
+          child: Text(
+            _isDeleting ? 'Deleting...' : 'Delete Account',
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Color(0xFF993030), fontSize: 12),
+          ),
+        ),
       ),
     );
   }

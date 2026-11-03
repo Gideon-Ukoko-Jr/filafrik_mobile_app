@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_color_scheme.dart';
+import '../../../../core/app_constants.dart';
 import '../../../../shared/widgets/app_widgets.dart';
 import '../../../auth/domain/models/founder_profile.dart';
 
@@ -15,7 +16,7 @@ class DirectoryCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AppCard(
-        accent: profile.isAccredited,
+        accent: kAccreditationEnabled && profile.isAccredited,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -190,25 +191,26 @@ class MemberBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showAccredited = kAccreditationEnabled && isAccredited;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
       decoration: BoxDecoration(
-        color: isAccredited
+        color: showAccredited
             ? context.colors.gold.withValues(alpha: .13)
             : context.colors.green.withValues(alpha: .10),
         border: Border.all(
-          color: isAccredited
+          color: showAccredited
               ? context.colors.gold.withValues(alpha: .30)
               : context.colors.green.withValues(alpha: .20),
         ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        isAccredited ? '✦ Accredited' : 'Listed',
+        showAccredited ? '✦ Accredited' : 'Member',
         style: TextStyle(
-          color: isAccredited ? context.colors.gold : context.colors.green,
+          color: showAccredited ? context.colors.gold : context.colors.green,
           fontSize: 9,
-          fontWeight: isAccredited ? FontWeight.w700 : FontWeight.w500,
+          fontWeight: showAccredited ? FontWeight.w700 : FontWeight.w500,
         ),
       ),
     );
